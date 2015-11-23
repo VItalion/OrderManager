@@ -1,0 +1,61 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OrderManager"
+        xmlns:ViewModel="clr-namespace:OrderManager.ViewModel" x:Name="window" x:Class="OrderManager.View.OrderManagerWindow"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        mc:Ignorable="d" Height="586" Width="638" Title="Менеджер заказов">
+    <Window.DataContext>
+        <ViewModel:OrderViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="grid">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=window}" Height="{Binding Height, ElementName=window}">
+            <TabItem Header="Проекты">
+                <DockPanel MinWidth="300" MaxWidth="{Binding Width, ElementName=window}">
+                    <DockPanel MinWidth="100" MaxWidth="500" DockPanel.Dock="Left">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TreeViewItem x:Name="rootNode" Header="Проекты" DockPanel.Dock="Left" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <TreeViewItem.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Новый проект" Command="{Binding CreateProject}">
+                                            <MenuItem.DataContext>
+                                                <ViewModel:OrderViewModel/>
+                                            </MenuItem.DataContext>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </TreeViewItem.ContextMenu>
+                                <TreeView x:Name="projectTree" ItemsSource="{Binding}">
+                                    <TreeView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TreeViewItem Header="{Binding Name}">
+                                                <TextBlock Text="{Binding Executor.FullName}"/>
+                                                <TreeView>
+                                                    <TreeView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TreeViewItem Header="{Binding Tasks.Name}">
+                                                                <TreeViewItem Header="{Binding Tasks.Executor.Name}"/>
+                                                            </TreeViewItem>
+                                                        </DataTemplate>
+                                                    </TreeView.ItemTemplate>
+                                                </TreeView>
+                                            </TreeViewItem>
+                                        </DataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+                            </TreeViewItem>
+                        </ScrollViewer>
+                    </DockPanel>
+                    <DockPanel MinWidth="200" MaxWidth="600" DockPanel.Dock="Right"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="Персоны">                
+                <Grid Background="#FFE5E5E5">
+                    
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="newTabItem" Header="+"/>
+        </TabControl>
+    </Grid>
+</Window>
