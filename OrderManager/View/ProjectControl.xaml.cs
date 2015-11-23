@@ -16,22 +16,13 @@ using System.Windows.Shapes;
 namespace OrderManager.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для ProjectControl.xaml
     /// </summary>
-    public partial class OrderManagerWindow : Window
+    public partial class ProjectControl : UserControl
     {
-        public OrderManagerWindow()
+        public ProjectControl()
         {
             InitializeComponent();
-
-            using (var context = new ViewModel.DataContext())
-            {
-                projectTree.DataContext = context.Projects.ToList();
-            }
-
-            //CommandBinding bind = new CommandBinding(ApplicationCommands.New);
-            //bind.Executed += Bind_Executed;
-            //CommandBindings.Add(bind);
-        }       
+        }
     }
 }

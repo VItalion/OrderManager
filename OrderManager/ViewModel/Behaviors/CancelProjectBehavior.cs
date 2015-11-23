@@ -18,7 +18,14 @@ namespace OrderManager.ViewModel.Behaviors
 
         private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            Application.Current.Windows.OfType<View.CreateProject>().Single().Close();
+            try
+            {
+                Application.Current.Windows.OfType<View.CreateProject>().Single().Close();
+            }
+            catch
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         protected override void OnDetaching()

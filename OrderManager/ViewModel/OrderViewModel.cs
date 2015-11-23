@@ -11,7 +11,7 @@ namespace OrderManager.ViewModel
     class OrderViewModel
     {
         public Command CreateProject { get; set; }
-        
+
         public OrderViewModel()
         {
             CreateProject = new Command(ToCreate);            

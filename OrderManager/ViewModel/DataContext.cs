@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace OrderManager.ViewModel
 {
-    public class DataContext : DbContext
+    class DataContext : DbContext
     {
         public DataContext(string connectionName = "OrdersDbConnection") : base(connectionName) { }
         
