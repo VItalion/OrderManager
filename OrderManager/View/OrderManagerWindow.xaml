@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:ViewModel="clr-namespace:OrderManager.ViewModel" x:Class="OrderManager.View.OrderManagerWindow"
+        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors"
+        xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d" Height="470" Width="900" Title="Менеджер заказов" SizeToContent="Width">
-    <Window.DataContext>
-        <ViewModel:OrderViewModel/>
-    </Window.DataContext>
+        mc:Ignorable="d" Height="600" Width="900" Title="Менеджер заказов" SizeToContent="Width">
+    
     <DockPanel Width="{Binding ElementName=window}" Height="{Binding ElementName=window}">
         <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="{Binding ElementName=window}" MinHeight="{Binding ElementName=window}">
             <TabItem Header="Проекты">
@@ -17,34 +17,62 @@
                     <DockPanel MinWidth="200" MaxWidth="500" DockPanel.Dock="Left">
                         <!--ScrollViewer VerticalScrollBarVisibility="Auto">-->
                             <TreeView x:Name="projectTree">
-                                <TreeViewItem Header="Проекты" ItemsSource="{Binding}" DockPanel.Dock="Left" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                    
-                                    <TreeViewItem.ContextMenu>
+                            <TreeViewItem x:Name="projects" ItemsSource="{Binding}" Header="Проекты"  DockPanel.Dock="Left" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <TreeViewItem.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Новый проект" Command="{Binding CreateProject}"/>
+                                        <MenuItem Header="Новый проект">
+                                            <i:Interaction.Behaviors>
+                                                <Behaviors:NewProjectBehavior/>
+                                            </i:Interaction.Behaviors>
+                                        </MenuItem>
+                                        <MenuItem Header="Удалить проект">
+                                            <i:Interaction.Behaviors>
+                                                <Behaviors:DeleteProjectBehavior/>
+                                            </i:Interaction.Behaviors>
+                                        </MenuItem>
                                         </ContextMenu>
                                     </TreeViewItem.ContextMenu>
-                                    <TreeViewItem.ItemTemplate>
-                                        <DataTemplate>
-                                            <TreeViewItem Header="{Binding Name}">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:SelectProjectBehavior/>
+                                </i:Interaction.Behaviors>
+                                <TreeViewItem.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <TreeViewItem Header="{Binding Name}">                                                
                                                 <TreeViewItem Header="{Binding Executor}"/>
-                                                <TreeView>
-                                                    <TreeView.ItemTemplate>
+                                                <TreeViewItem>
+                                                    <TreeViewItem.ItemTemplate>
                                                         <DataTemplate>
                                                             <TreeViewItem Header="{Binding Tasks.Name}">
                                                                 <TreeViewItem Header="{Binding Tasks.Executor}"/>
                                                             </TreeViewItem>
                                                         </DataTemplate>
-                                                    </TreeView.ItemTemplate>
-                                                </TreeView>
+                                                    </TreeViewItem.ItemTemplate>
+                                                </TreeViewItem>
                                             </TreeViewItem>
-                                        </DataTemplate>
+                                        </HierarchicalDataTemplate>
                                     </TreeViewItem.ItemTemplate>
                                 </TreeViewItem>
                             </TreeView>
                         <!--</>-->
                     </DockPanel>
-                    <local:ProjectControl DockPanel.Dock="Right"/>
+                    
+                    <DockPanel DockPanel.Dock="Right">
+                        <local:ProjectControl DockPanel.Dock="Top"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" DockPanel.Dock="Bottom">
+                            <Button Content="Ок" Margin="5" Width="70" IsEnabled="False">
+                                <i:Interaction.Behaviors>
+                                    <ChangeBehavior:SaveChangeBehavior/>
+                                    <Behaviors:ChangeBehavior/>
+                                </i:Interaction.Behaviors>
+                            </Button>
+                            <Button Content="Отмена" Margin="5" Width="70" IsEnabled="False">
+                                <i:Interaction.Behaviors>
+                                    <Behaviors:CancelProjectBehavior/>
+                                    <Behaviors:ChangeBehavior/>
+                                </i:Interaction.Behaviors>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Персоны">

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="OrderManager.View.CustomerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrderManager.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" MinWidth="280">
+            <Label Content="ФИО:"/>
+            <TextBox Margin="5" Text="{Binding FullName}"/>
+            <Label Content="Адресс:"/>
+            <TextBox Margin="5" Text="{Binding Address}"/>
+            <StackPanel>
+                <Image Margin="5" MinHeight="200" MinWidth="200"/>
+                <Button Content="Обзор..." Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

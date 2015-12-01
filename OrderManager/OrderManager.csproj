@@ -50,6 +50,10 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Blend.Interactivity.Wpf.1.0.1340.0\lib\net\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -57,8 +61,8 @@
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Blend.Interactivity.Wpf.1.0.1340.0\lib\net\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -79,14 +83,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Behaviors\AddCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CreateCustomer\CancelCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CreateCustomer\CreateCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\DeleteProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\NewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjcetControlBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\ObserverBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\TextBoxBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\SelectProjectBehavior.cs" />
+    <Compile Include="View\CreateCustomer.xaml.cs">
+      <DependentUpon>CreateCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerControl.xaml.cs">
+      <DependentUpon>CustomerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ProjectControl.xaml.cs">
       <DependentUpon>ProjectControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\CreateCustomer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CreateProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreateTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

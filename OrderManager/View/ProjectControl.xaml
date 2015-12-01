@@ -6,26 +6,49 @@
              xmlns:local="clr-namespace:OrderManager.View"
              xmlns:Model="clr-namespace:OrderManager.Model"
              xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors"
+             xmlns:Customer="clr-namespace:OrderManager.ViewModel.Behaviors.CreateCustomer"
+             xmlns:Control="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <i:Interaction.Behaviors>
+        <Behaviors:ProjcetControlBehavior/>
+        
+    </i:Interaction.Behaviors>
     <DockPanel>
-        <DockPanel.DataContext>
-            <Model:Project/>
-        </DockPanel.DataContext>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel DockPanel.Dock="Left" MinWidth="400">
                 <Label Content="Название проекта:"/>
-                <TextBox Margin="5" Text="{Binding Name}"/>
+                <TextBox Margin="5" Text="{Binding Name}">
+                    <i:Interaction.Behaviors>
+                        <Control:TextBoxBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Label Content="Планируемый бюджет:"/>
-                <TextBox Margin="5" Text="{Binding PlannedBudget}"/>
+                <TextBox Margin="5" Text="{Binding PlannedBudget}">
+                    <i:Interaction.Behaviors>
+                        <Control:TextBoxBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Label Content="Реальный бюджет:"/>
-                <TextBox Margin="5" Text="{Binding RealBudget}"/>
+                <TextBox Margin="5" Text="{Binding RealBudget}">
+                    <i:Interaction.Behaviors>
+                        <Control:TextBoxBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Label Content="Ответственный исполнитель:"/>
-                <TextBox Margin="5" Text="{Binding Executor.FullName}"/>
+                <TextBox Margin="5" Text="{Binding Executor}">
+                    <i:Interaction.Behaviors>
+                        <Control:TextBoxBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Label Content="Список задач:"/>
-                <ListBox ItemsSource="{Binding Tasks}"/>
+                <ListBox>
+                    <DataTemplate>
+                        <ListBoxItem Content="{Binding Tasks.Name}"/>
+                    </DataTemplate>
+                </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Добавить" Margin="5">
                         <i:Interaction.Behaviors>
@@ -33,29 +56,23 @@
                         </i:Interaction.Behaviors>
                     </Button>
                     <Button Content="Удалить" Margin="5">
-
+                        
                     </Button>
                 </StackPanel>
                 <Label Content="Список заказчтков:"/>
-                <ListBox ItemsSource="{Binding Customers}"/>
+                <ListBox>
+                    <DataTemplate>
+                        <ListBoxItem Content="{Binding Customers.FullName}"/>
+                    </DataTemplate>
+                </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Добавить" Margin="5">
-
+                        <i:Interaction.Behaviors>
+                            <Behaviors:AddCustomerBehavior/>
+                        </i:Interaction.Behaviors>
                     </Button>
                     <Button Content="Удалить" Margin="5"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Ок" Margin="5" Width="70">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:AddProjectBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                    <Button Content="Отмена" Margin="5" Width="70">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:CancelProjectBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                </StackPanel>
+                </StackPanel>                
             </StackPanel>
         </ScrollViewer>
         <StackPanel DockPanel.Dock="Right">

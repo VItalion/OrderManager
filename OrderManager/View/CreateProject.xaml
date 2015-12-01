@@ -7,8 +7,23 @@
         xmlns:Model="clr-namespace:OrderManager.Model" x:Class="OrderManager.View.CreateProject"
         xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors" x:Name="window"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="CreateProject" Height="500" Width="600">
-    <local:ProjectControl/>
+    <DockPanel>
+        <local:ProjectControl DockPanel.Dock="Top"/>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" DockPanel.Dock="Bottom" MaxHeight="30">
+            <Button Content="Ок" Margin="5" Width="70" MaxHeight="20">
+                <i:Interaction.Behaviors>
+                    <ChangeBehavior:SaveChangeBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Button Content="Отмена" Margin="5" Width="70" MaxHeight="20">
+                <i:Interaction.Behaviors>
+                    <Behaviors:CancelProjectBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </DockPanel>
 </Window>

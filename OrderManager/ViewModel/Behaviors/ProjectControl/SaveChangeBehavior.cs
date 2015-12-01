@@ -7,9 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
-    public class AddProjectBehavior : Behavior<Button>
+    class SaveChangeBehavior : Behavior<Button>
     {
         protected override void OnAttached()
         {
@@ -23,20 +23,16 @@ namespace OrderManager.ViewModel.Behaviors
 
             using (var context = new DataContext())
             {
+                //context.Projects.Add(newProject);
+                context.Projects.Remove(context.Projects.Find(newProject.Id));
                 context.Projects.Add(newProject);
                 context.SaveChanges();
-            }
-
-            try
-            {
-                Application.Current.Windows.OfType<View.CreateProject>().Single().Close();
-            }
-            catch { }
+            }            
         }
 
         protected override void OnDetaching()
         {
             AssociatedObject.Click -= AssociatedObject_Click;
-        }        
+        }
     }
 }

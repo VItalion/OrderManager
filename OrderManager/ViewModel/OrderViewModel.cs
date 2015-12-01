@@ -11,10 +11,12 @@ namespace OrderManager.ViewModel
     class OrderViewModel
     {
         public Command CreateProject { get; set; }
+        public Command DeleteProject { get; set; }
 
         public OrderViewModel()
         {
-            CreateProject = new Command(ToCreate);            
+            CreateProject = new Command(ToCreate);
+            DeleteProject = new Command((o) => System.Windows.MessageBox.Show($"param - {o.ToString()}")); 
         }
         View.CreateProject cp { get; set; }
                         
