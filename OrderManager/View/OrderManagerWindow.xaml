@@ -8,14 +8,13 @@
         xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors"
         xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d" Height="600" Width="900" Title="Менеджер заказов" SizeToContent="Width">
+        mc:Ignorable="d" Height="500" Width="810" Title="Менеджер заказов" SizeToContent="Width">
     
     <DockPanel Width="{Binding ElementName=window}" Height="{Binding ElementName=window}">
         <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="{Binding ElementName=window}" MinHeight="{Binding ElementName=window}">
             <TabItem Header="Проекты">
                 <DockPanel MinWidth="300" Margin="0,0,17,17">
-                    <DockPanel MinWidth="200" MaxWidth="500" DockPanel.Dock="Left">
-                        <!--ScrollViewer VerticalScrollBarVisibility="Auto">-->
+                    <DockPanel MinWidth="200" MaxWidth="500" DockPanel.Dock="Left">                        
                             <TreeView x:Name="projectTree">
                             <TreeViewItem x:Name="projects" ItemsSource="{Binding}" Header="Проекты"  DockPanel.Dock="Left" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                                 <TreeViewItem.ContextMenu>
@@ -33,7 +32,7 @@
                                         </ContextMenu>
                                     </TreeViewItem.ContextMenu>
                                 <i:Interaction.Behaviors>
-                                    <Behaviors:SelectProjectBehavior/>
+                                    <Behaviors:TreeViewProjectBehavior/>
                                 </i:Interaction.Behaviors>
                                 <TreeViewItem.ItemTemplate>
                                         <HierarchicalDataTemplate>
@@ -52,23 +51,24 @@
                                         </HierarchicalDataTemplate>
                                     </TreeViewItem.ItemTemplate>
                                 </TreeViewItem>
-                            </TreeView>
-                        <!--</>-->
+                            </TreeView>                      
                     </DockPanel>
                     
                     <DockPanel DockPanel.Dock="Right">
                         <local:ProjectControl DockPanel.Dock="Top"/>
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" DockPanel.Dock="Bottom">
-                            <Button Content="Ок" Margin="5" Width="70" IsEnabled="False">
+                            <Button Content="Ок" Margin="5" Width="70" IsEnabled="False" DataContext="{Binding ElementName=projectTree}">
                                 <i:Interaction.Behaviors>
                                     <ChangeBehavior:SaveChangeBehavior/>
                                     <Behaviors:ChangeBehavior/>
+                                    <Behaviors:SaveChangeBehavior/>
                                 </i:Interaction.Behaviors>
                             </Button>
                             <Button Content="Отмена" Margin="5" Width="70" IsEnabled="False">
                                 <i:Interaction.Behaviors>
-                                    <Behaviors:CancelProjectBehavior/>
+                                    <Behaviors:CancelChangeProjectBehavior/>
                                     <Behaviors:ChangeBehavior/>
+                                    <Behaviors:SaveChangeBehavior/>
                                 </i:Interaction.Behaviors>
                             </Button>
                         </StackPanel>

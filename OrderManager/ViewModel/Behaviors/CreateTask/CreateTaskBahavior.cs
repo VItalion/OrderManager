@@ -11,6 +11,7 @@ namespace OrderManager.ViewModel.Behaviors.CreateTask
 {
     public class CreateTaskBehavior : Behavior<Button>
     {
+        public static event Action<Model.Task> OnCreateTask;
         protected override void OnAttached()
         {
             AssociatedObject.Click += AddTask;
@@ -24,8 +25,11 @@ namespace OrderManager.ViewModel.Behaviors.CreateTask
             using(var context = new DataContext())
             {
                 context.Tasks.Add(task);
-                context.SaveChanges();
+                //context.SaveChanges();
             }
+
+            if (OnCreateTask != null)
+                OnCreateTask(task);
 
             Application.Current.Windows.OfType<View.CreateTask>().Single().Close();
         }

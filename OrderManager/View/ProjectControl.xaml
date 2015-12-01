@@ -13,8 +13,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <i:Interaction.Behaviors>
-        <Behaviors:ProjcetControlBehavior/>
-        
+        <Behaviors:ProjcetControlBehavior/>        
     </i:Interaction.Behaviors>
     <DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -77,14 +76,21 @@
         </ScrollViewer>
         <StackPanel DockPanel.Dock="Right">
             <Label Content="Сроки выполнения:"/>
-            <Calendar Margin="5" DisplayDate="{Binding DateOfCompletion}"/>
+            <Calendar Margin="5" SelectedDate="{Binding DateOfCompletion}">
+                <i:Interaction.Behaviors>
+                    <Control:DataChangeBehavior/>
+                </i:Interaction.Behaviors>
+            </Calendar>
             <Label Content="Статус выполнения:"/>
-            <ComboBox Margin="5" ItemsSource="{Binding Status}">
+            <ComboBox Margin="5">
                 <System:String>Планирование</System:String>
                 <System:String>Разработка</System:String>
                 <System:String>Тестирование</System:String>
                 <System:String>Фикс багов</System:String>
                 <System:String>Завершен</System:String>
+                <i:Interaction.Behaviors>
+                    <Control:StatusChangeBehavior/>
+                </i:Interaction.Behaviors>
             </ComboBox>
         </StackPanel>
     </DockPanel>

@@ -11,6 +11,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
     class SaveChangeBehavior : Behavior<Button>
     {
+        public static event Action SaveChange;
         protected override void OnAttached()
         {
             AssociatedObject.Click += AssociatedObject_Click;
@@ -19,15 +20,29 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
         {
             var b = e.OriginalSource as Button;
-            var newProject = b.DataContext as Model.Project;
+            var collection = b.DataContext as TreeView;
+           // var item = collection.CurrentItem as 
+            var currents = collection.DataContext as List<Model.Project>;
+            var current = currents[0];
 
             using (var context = new DataContext())
             {
+                //context.Projects.Remove(context.Projects.Find(newProject.Id));
                 //context.Projects.Add(newProject);
-                context.Projects.Remove(context.Projects.Find(newProject.Id));
-                context.Projects.Add(newProject);
+                var project = context.Projects.Find(current.Id);
+                project.Name = current.Name;
+                project.Executor = current.Executor;
+                project.PlannedBudget = current.PlannedBudget;
+                project.RealBudget = current.PlannedBudget;
+                project.DateOfCompletion = current.DateOfCompletion;
+                project.Status = current.Status;
+                //project.Tasks = current.Tasks;
+                //project.Customers = current.Customers;
+
                 context.SaveChanges();
-            }            
+            }
+            if (SaveChange != null)
+                SaveChange();        
         }
 
         protected override void OnDetaching()

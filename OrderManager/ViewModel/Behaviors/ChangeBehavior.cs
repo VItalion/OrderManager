@@ -18,6 +18,8 @@ namespace OrderManager.ViewModel.Behaviors
         private void AssociatedObject_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             ProjectControl.TextBoxBehavior.Change += ObserverBehavior_Change;
+            ProjectControl.StatusChangeBehavior.Change += ObserverBehavior_Change;
+            ProjectControl.DataChangeBehavior.Change += ObserverBehavior_Change;
         }
 
         private void ObserverBehavior_Change()
@@ -28,6 +30,7 @@ namespace OrderManager.ViewModel.Behaviors
         protected override void OnDetaching()
         {
             ProjectControl.TextBoxBehavior.Change -= ObserverBehavior_Change;
+            ProjectControl.StatusChangeBehavior.Change -= ObserverBehavior_Change;
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
         }
     }

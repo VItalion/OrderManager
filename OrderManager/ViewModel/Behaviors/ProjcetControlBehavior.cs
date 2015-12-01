@@ -20,7 +20,7 @@ namespace OrderManager.ViewModel.Behaviors
         {
             var projectControl = sender as View.ProjectControl;
 
-            SelectProjectBehavior.ProjectSelect += ProjectSelectedEventHandler;
+            TreeViewProjectBehavior.ProjectSelect += ProjectSelectedEventHandler;
             CreateCustomer.CreateCustomerBehavior.Created += CreateCustomerEventHandler;
         }
 
@@ -42,7 +42,7 @@ namespace OrderManager.ViewModel.Behaviors
         protected override void OnDetaching()
         {
             AssociatedObject.Loaded -= ProjectControlLoaded;
-            SelectProjectBehavior.ProjectSelect -= ProjectSelectedEventHandler;
+            TreeViewProjectBehavior.ProjectSelect -= ProjectSelectedEventHandler;
         }
     }
 }

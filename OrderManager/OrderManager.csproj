@@ -84,17 +84,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModel\Behaviors\AddCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CancelChangeProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ChangeProjectTreeViewBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CancelCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CreateCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\DeleteProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\NewProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjcetControlBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\CreateTaskBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\DataChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\ObserverBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\SaveChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\StatusChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\TextBoxBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\SelectProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TreeViewProjectBehavior.cs" />
     <Compile Include="View\CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
     </Compile>
@@ -183,7 +189,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModel\Behaviors\ProjectTab\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
