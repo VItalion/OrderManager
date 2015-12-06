@@ -10,8 +10,6 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
     class DataChangeBehavior : Behavior<Calendar>
     {
-        public static event Action Change;
-
         protected override void OnAttached()
         {           
             AssociatedObject.SelectedDatesChanged += DateChange;
@@ -20,22 +18,32 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
         private void DateChange(object sender, SelectionChangedEventArgs e)
         {
             var calendar = sender as Calendar;
-            var data = calendar.DataContext as Model.Project;           
-            data.DateOfCompletion = (DateTime)calendar.SelectedDate;
-            calendar.DisplayDate = data.DateOfCompletion;
+            var data = calendar.DataContext as Model.Project;
 
-            using (var context = new DataContext())
+            try
+            {                
+                data.DateOfCompletion = (DateTime)calendar.SelectedDate;
+                calendar.DisplayDate = data.DateOfCompletion;
+            }
+            catch { }
+
+            var context = new DataContext();
+            try
             {
                 var project = (from p in context.Projects
                                where p.Id == data.Id
                                select p).Single();
 
                 if (project.DateOfCompletion != data.DateOfCompletion)
-                    if (Change != null)
-                        Change();
+                    Events.Change();
 
                 project.DateOfCompletion = data.DateOfCompletion;
-            }            
+            }
+            catch { }
+            finally
+            {
+                context.Dispose();
+            }        
         }
 
         protected override void OnDetaching()

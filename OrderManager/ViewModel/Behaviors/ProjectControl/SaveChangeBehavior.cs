@@ -19,28 +19,30 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
         {
-            var b = e.OriginalSource as Button;
-            var collection = b.DataContext as TreeView;
-           // var item = collection.CurrentItem as 
-            var currents = collection.DataContext as List<Model.Project>;
-            var current = currents[0];
-
-            using (var context = new DataContext())
+            var context = new DataContext();
+            try
             {
-                //context.Projects.Remove(context.Projects.Find(newProject.Id));
-                //context.Projects.Add(newProject);
-                var project = context.Projects.Find(current.Id);
+                var b = e.OriginalSource as Button;
+                var current = b.DataContext as Model.Project;
+
+                var project = context.Projects.Include("Tasks").Where(p=>p.Id == current.Id).Single();
                 project.Name = current.Name;
                 project.Executor = current.Executor;
                 project.PlannedBudget = current.PlannedBudget;
-                project.RealBudget = current.PlannedBudget;
+                project.RealBudget = current.RealBudget;
                 project.DateOfCompletion = current.DateOfCompletion;
                 project.Status = current.Status;
-                //project.Tasks = current.Tasks;
+                project.Tasks = current.Tasks;
                 //project.Customers = current.Customers;
 
                 context.SaveChanges();
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"{ex.Source} say: {ex.Message}");
+            }
+            finally { context.Dispose(); }            
+
             if (SaveChange != null)
                 SaveChange();        
         }

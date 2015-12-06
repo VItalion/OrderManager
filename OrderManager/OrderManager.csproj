@@ -83,24 +83,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\Behaviors\AddCustomerBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\CancelChangeProjectBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ChangeProjectTreeViewBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\AddCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\CancelChangeProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\ChangeProjectTreeViewBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\ChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CancelCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CreateCustomerBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\DeleteProjectBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\NewProjectBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjcetControlBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\DeleteProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\DockPanelBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\NewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\ProjcetControlBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\CreateTaskBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\DataChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\ObserverBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\ProjectCreateBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\SaveChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\StatusChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\TextBoxBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\SaveChangeBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\TreeViewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\TreeViewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\ExecutorNameBehavior.cs" />
+    <Compile Include="ViewModel\Events.cs" />
     <Compile Include="View\CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
     </Compile>
@@ -109,6 +113,9 @@
     </Compile>
     <Compile Include="View\ProjectControl.xaml.cs">
       <DependentUpon>ProjectControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProjectPanel.xaml.cs">
+      <DependentUpon>ProjectPanel.xaml</DependentUpon>
     </Compile>
     <Page Include="View\CreateCustomer.xaml">
       <SubType>Designer</SubType>
@@ -134,14 +141,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\Behaviors\AddTaskBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\CancelProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\AddTaskBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\CancelProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateTask\CancelTaskBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateTask\CreateTaskBahavior.cs" />
-    <Compile Include="ViewModel\Command.cs" />
     <Compile Include="ViewModel\DataContext.cs" />
-    <Compile Include="ViewModel\Behaviors\AddProjectBehavior.cs" />
-    <Compile Include="ViewModel\OrderViewModel.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectTab\AddProjectBehavior.cs" />
     <Compile Include="View\CreateProject.xaml.cs">
       <DependentUpon>CreateProject.xaml</DependentUpon>
     </Compile>
@@ -153,6 +158,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\ProjectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +188,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -189,9 +199,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Behaviors\ProjectTab\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

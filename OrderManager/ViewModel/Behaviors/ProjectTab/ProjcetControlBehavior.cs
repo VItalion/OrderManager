@@ -7,20 +7,26 @@ using System.Windows;
 using System.Windows.Interactivity;
 using OrderManager.Model;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     class ProjcetControlBehavior : Behavior<View.ProjectControl>
     {
         protected override void OnAttached()
         {
             AssociatedObject.Loaded += ProjectControlLoaded;
+            AssociatedObject.KeyDown += AssociatedObject_KeyDown;
+        }
+
+        private void AssociatedObject_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            Events.Change();
         }
 
         private void ProjectControlLoaded(object sender, RoutedEventArgs e)
         {
             var projectControl = sender as View.ProjectControl;
 
-            TreeViewProjectBehavior.ProjectSelect += ProjectSelectedEventHandler;
+            //Events.OnProjectSelect += ProjectSelectedEventHandler;
             CreateCustomer.CreateCustomerBehavior.Created += CreateCustomerEventHandler;
         }
 
@@ -29,7 +35,7 @@ namespace OrderManager.ViewModel.Behaviors
             MessageBox.Show("Customer created");
         }
 
-        private async System.Threading.Tasks.Task ProjectSelectedEventHandler(Project obj)
+        /*private async System.Threading.Tasks.Task ProjectSelectedEventHandler(Project obj)
         {
             new System.Threading.Tasks.Task(() => 
             {
@@ -37,12 +43,15 @@ namespace OrderManager.ViewModel.Behaviors
                 Dispatcher.Invoke(() => AssociatedObject.DataContext = obj);
                 //AssociatedObject.Dispatcher.Invoke(() => AssociatedObject.DataContext = obj, System.Windows.Threading.DispatcherPriority.Normal);
             }).Start();
-        }
+        }*/
 
         protected override void OnDetaching()
         {
             AssociatedObject.Loaded -= ProjectControlLoaded;
-            TreeViewProjectBehavior.ProjectSelect -= ProjectSelectedEventHandler;
+            AssociatedObject.KeyDown -= AssociatedObject_KeyDown;
+
+            //Events.OnProjectSelect -= ProjectSelectedEventHandler;
+            CreateCustomer.CreateCustomerBehavior.Created -= CreateCustomerEventHandler;
         }
     }
 }

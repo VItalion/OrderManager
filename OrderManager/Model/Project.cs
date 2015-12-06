@@ -15,8 +15,8 @@ namespace OrderManager.Model
         public double RealBudget { get; set; }
         public string Executor { get; set; }
         public string Status { get; set; }
-                
-        public virtual ICollection<Task> Tasks { get; set; }
+        
+        public ICollection<Task> Tasks { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
 
         public Project() { DateOfCompletion = DateTime.Now; }

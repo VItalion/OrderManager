@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:OrderManager.View"
              xmlns:Model="clr-namespace:OrderManager.Model"
-             xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors"
+             xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab"
              xmlns:Customer="clr-namespace:OrderManager.ViewModel.Behaviors.CreateCustomer"
              xmlns:Control="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -43,10 +43,15 @@
                     </i:Interaction.Behaviors>
                 </TextBox>
                 <Label Content="Список задач:"/>
-                <ListBox>
-                    <DataTemplate>
-                        <ListBoxItem Content="{Binding Tasks.Name}"/>
-                    </DataTemplate>
+                <ListBox ItemsSource="{Binding Tasks}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ListBoxItem Content="{Binding Tasks.Name}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <i:Interaction.Behaviors>
+                        <Control:CreateTaskBehavior/>
+                    </i:Interaction.Behaviors>
                 </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Добавить" Margin="5">
@@ -60,9 +65,11 @@
                 </StackPanel>
                 <Label Content="Список заказчтков:"/>
                 <ListBox>
-                    <DataTemplate>
-                        <ListBoxItem Content="{Binding Customers.FullName}"/>
-                    </DataTemplate>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <ListBoxItem Content="{Binding Customers.FullName}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Button Content="Добавить" Margin="5">

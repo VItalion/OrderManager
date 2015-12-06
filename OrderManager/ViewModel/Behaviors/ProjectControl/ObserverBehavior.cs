@@ -10,8 +10,7 @@ using System.Windows.Interactivity;
 namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
     class ObserverBehavior : Behavior<View.ProjectControl>
-    {
-        public static event Action Change;
+    {        
         protected override void OnAttached()
         {           
             AssociatedObject.KeyDown += AssociatedObject_KeyDown;
@@ -19,7 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 
         private void AssociatedObject_KeyDown(object sender, KeyEventArgs e)
         {
-            Change();
+            Events.Change();
         }
                 
         protected override void OnDetaching()

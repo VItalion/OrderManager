@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     class ChangeProjectTreeViewBehavior : Behavior<TreeView>
     {
         protected override void OnAttached()
         {
-            ProjectControl.TextBoxBehavior.Change += ChangeEventHandler;
-            ProjectControl.StatusChangeBehavior.Change += ChangeEventHandler;
-            ProjectControl.DataChangeBehavior.Change += ChangeEventHandler;
+            Events.OnChange += ChangeEventHandler;
+            
             ProjectControl.SaveChangeBehavior.SaveChange += SaveChangeEventHandler;
         }
 
@@ -30,9 +29,8 @@ namespace OrderManager.ViewModel.Behaviors
 
         protected override void OnDetaching()
         {
-            ProjectControl.TextBoxBehavior.Change -= ChangeEventHandler;
-            ProjectControl.StatusChangeBehavior.Change -= ChangeEventHandler;
-            ProjectControl.DataChangeBehavior.Change -= ChangeEventHandler;
+            Events.OnChange -= ChangeEventHandler;
+            
             ProjectControl.SaveChangeBehavior.SaveChange -= SaveChangeEventHandler;
         }
     }

@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:ViewModel="clr-namespace:OrderManager.ViewModel" x:Class="OrderManager.View.OrderManagerWindow"
-        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors"
+        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab"
         xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d" Height="500" Width="810" Title="Менеджер заказов" SizeToContent="Width">
+        mc:Ignorable="d" Height="500" Width="850" Title="Менеджер заказов">
     
     <DockPanel Width="{Binding ElementName=window}" Height="{Binding ElementName=window}">
         <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="{Binding ElementName=window}" MinHeight="{Binding ElementName=window}">
@@ -26,7 +26,7 @@
                                         </MenuItem>
                                         <MenuItem Header="Удалить проект">
                                             <i:Interaction.Behaviors>
-                                                <Behaviors:DeleteProjectBehavior/>
+                                                 <Behaviors:DeleteProjectBehavior/>
                                             </i:Interaction.Behaviors>
                                         </MenuItem>
                                         </ContextMenu>
@@ -35,43 +35,27 @@
                                     <Behaviors:TreeViewProjectBehavior/>
                                 </i:Interaction.Behaviors>
                                 <TreeViewItem.ItemTemplate>
-                                        <HierarchicalDataTemplate>
-                                            <TreeViewItem Header="{Binding Name}">                                                
-                                                <TreeViewItem Header="{Binding Executor}"/>
-                                                <TreeViewItem>
-                                                    <TreeViewItem.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TreeViewItem Header="{Binding Tasks.Name}">
-                                                                <TreeViewItem Header="{Binding Tasks.Executor}"/>
-                                                            </TreeViewItem>
-                                                        </DataTemplate>
-                                                    </TreeViewItem.ItemTemplate>
-                                                </TreeViewItem>
-                                            </TreeViewItem>
-                                        </HierarchicalDataTemplate>
+                                     <HierarchicalDataTemplate>
+                                        <TreeViewItem Header="{Binding Name}">
+                                            <TreeViewItem Header="{Binding Executor}"/>
+                                            <TreeViewItem.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TreeViewItem Header="{Binding Tasks.Name}">
+                                                        <TreeViewItem Header="{Binding Tasks.ExecutorFullName}"/>
+                                                    </TreeViewItem>
+                                                </DataTemplate>
+                                            </TreeViewItem.ItemTemplate>
+                                        </TreeViewItem>
+                                    </HierarchicalDataTemplate>
                                     </TreeViewItem.ItemTemplate>
                                 </TreeViewItem>
                             </TreeView>                      
                     </DockPanel>
                     
                     <DockPanel DockPanel.Dock="Right">
-                        <local:ProjectControl DockPanel.Dock="Top"/>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" DockPanel.Dock="Bottom">
-                            <Button Content="Ок" Margin="5" Width="70" IsEnabled="False" DataContext="{Binding ElementName=projectTree}">
-                                <i:Interaction.Behaviors>
-                                    <ChangeBehavior:SaveChangeBehavior/>
-                                    <Behaviors:ChangeBehavior/>
-                                    <Behaviors:SaveChangeBehavior/>
-                                </i:Interaction.Behaviors>
-                            </Button>
-                            <Button Content="Отмена" Margin="5" Width="70" IsEnabled="False">
-                                <i:Interaction.Behaviors>
-                                    <Behaviors:CancelChangeProjectBehavior/>
-                                    <Behaviors:ChangeBehavior/>
-                                    <Behaviors:SaveChangeBehavior/>
-                                </i:Interaction.Behaviors>
-                            </Button>
-                        </StackPanel>
+                        <i:Interaction.Behaviors>
+                            <Behaviors:DockPanelBehavior/>
+                        </i:Interaction.Behaviors>                        
                     </DockPanel>
                 </DockPanel>
             </TabItem>

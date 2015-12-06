@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:Model="clr-namespace:OrderManager.Model" x:Class="OrderManager.View.CreateProject"
-        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors" x:Name="window"
+        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab" x:Name="window"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
+        xmlns:ProjectBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="CreateProject" Height="500" Width="600">
@@ -16,7 +16,7 @@
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" DockPanel.Dock="Bottom" MaxHeight="30">
             <Button Content="Ок" Margin="5" Width="70" MaxHeight="20">
                 <i:Interaction.Behaviors>
-                    <ChangeBehavior:SaveChangeBehavior/>
+                    <Behaviors:AddProjectBehavior/>
                 </i:Interaction.Behaviors>
             </Button>
             <Button Content="Отмена" Margin="5" Width="70" MaxHeight="20">

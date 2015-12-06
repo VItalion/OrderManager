@@ -21,15 +21,21 @@ namespace OrderManager.ViewModel.Behaviors.CreateTask
         {
             var b = e.OriginalSource as Button;
             var task = b.DataContext as Model.Task;
-
-            using(var context = new DataContext())
+            task.Id++;
+                        
+            using (var context = new DataContext())
             {
-                context.Tasks.Add(task);
-                //context.SaveChanges();
-            }
+                var project = (from p in context.Projects
+                               where p.Id == ProjectControl.SelectedDataContext.Project.Id
+                               select p).Single();
 
-            if (OnCreateTask != null)
-                OnCreateTask(task);
+                if (project.Tasks == null)
+                    project.Tasks = new List<Model.Task>();
+                project.Tasks.Add(task);
+                context.SaveChanges();
+            }
+                if (OnCreateTask != null)
+                    OnCreateTask(task);
 
             Application.Current.Windows.OfType<View.CreateTask>().Single().Close();
         }

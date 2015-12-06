@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     class DeleteProjectBehavior : Behavior<MenuItem>
     {
@@ -26,6 +26,9 @@ namespace OrderManager.ViewModel.Behaviors
                                select p).Single();
                 context.Projects.Remove(project);
                 context.SaveChanges();
+
+                //AssociatedObject.DataContext = context.Projects.ToList();
+                Events.DeleteProject(context.Projects.ToList());
             }        
         }
 

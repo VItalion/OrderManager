@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     class AddTaskBehavior : Behavior<Button>
-    {
+    {        
         protected override void OnAttached()
         {
             AssociatedObject.Click += AddTask;
@@ -19,7 +19,7 @@ namespace OrderManager.ViewModel.Behaviors
         private void AddTask(object sender, RoutedEventArgs e)
         {
             View.CreateTask ct = new View.CreateTask();
-            ct.DataContext = new Model.Task();
+            ct.DataContext = new Model.Task() { Project = AssociatedObject.DataContext as Model.Project };
             ct.ShowDialog();
         }
         protected override void OnDetaching()

@@ -10,8 +10,7 @@ using OrderManager.Model;
 namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
     class CreateTaskBehavior : Behavior<ListBox>
-    {
-        public static event Action Change;
+    {        
         protected override void OnAttached()
         {
             CreateTask.CreateTaskBehavior.OnCreateTask += OnCreateTaskEventHandler;
@@ -19,10 +18,11 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 
         private void OnCreateTaskEventHandler(Model.Task obj)
         {
-            AssociatedObject.Items.Add(obj.Name);
+            ListBoxItem block = new ListBoxItem();
+            block.Content = obj.Name;
+            AssociatedObject.Items.Add(block);
 
-            if (Change != null)
-                Change();
+            Events.Change();
         }
 
         protected override void OnDetaching()

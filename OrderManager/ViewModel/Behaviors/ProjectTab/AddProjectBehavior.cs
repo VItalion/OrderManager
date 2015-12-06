@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace OrderManager.ViewModel.Behaviors
+namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     public class AddProjectBehavior : Behavior<Button>
-    {
+    {        
         protected override void OnAttached()
         {
             AssociatedObject.Click += AssociatedObject_Click;
@@ -26,6 +26,8 @@ namespace OrderManager.ViewModel.Behaviors
                 context.Projects.Add(newProject);
                 context.SaveChanges();
             }
+
+            Events.AddProject();
 
             try
             {

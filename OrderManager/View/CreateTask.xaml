@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:Model="clr-namespace:OrderManager.Model"
         xmlns:Behavior="clr-namespace:OrderManager.ViewModel.Behaviors.CreateTask"
+        xmlns:tmp="clr-namespace:OrderManager.ViewModel.Behaviors.TaskControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="OrderManager.View.CreateTask"
         x:Name="window"
@@ -13,16 +14,17 @@
         Title="CreateTask" Height="500" Width="320">
     <DockPanel>
 
-        <DockPanel.DataContext>
-            <Model:Task/>
-        </DockPanel.DataContext>
-
+       
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel DockPanel.Dock="Left" MinWidth="300">
                 <Label Content="Название задачи:"/>
                 <TextBox Margin="5" Text="{Binding Name}"/>
                 <Label Content="Ответственный исполнитель:"/>
-                <TextBox Margin="5" Text="{Binding Executor.FullName}"/>
+                <TextBox Margin="5" Text="{Binding Executor.FullName}">
+                    <i:Interaction.Behaviors>
+                        <tmp:ExecutorNameBehavior/>
+                    </i:Interaction.Behaviors>
+                </TextBox>
                 <Label Content="Сроки выполнения:"/>
                 <Calendar Margin="5" DisplayDate="{Binding DateOfCompletion}"/>
                 <Label Content="Статус выполнения:"/>
