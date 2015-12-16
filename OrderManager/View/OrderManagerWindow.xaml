@@ -8,61 +8,15 @@
         xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab"
         xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        mc:Ignorable="d" Height="500" Width="850" Title="Менеджер заказов">
+        mc:Ignorable="d" Height="600" Width="850" Title="Менеджер заказов" ResizeMode="CanMinimize">
     
-    <DockPanel Width="{Binding ElementName=window}" Height="{Binding ElementName=window}">
-        <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="{Binding ElementName=window}" MinHeight="{Binding ElementName=window}">
+    <DockPanel>
+        <TabControl HorizontalAlignment="Left" VerticalAlignment="Top">
             <TabItem Header="Проекты">
-                <DockPanel MinWidth="300" Margin="0,0,17,17">
-                    <DockPanel MinWidth="200" MaxWidth="500" DockPanel.Dock="Left">                        
-                            <TreeView x:Name="projectTree">
-                            <TreeViewItem x:Name="projects" ItemsSource="{Binding}" Header="Проекты"  DockPanel.Dock="Left" IsExpanded="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                <TreeViewItem.ContextMenu>
-                                        <ContextMenu>
-                                        <MenuItem Header="Новый проект">
-                                            <i:Interaction.Behaviors>
-                                                <Behaviors:NewProjectBehavior/>
-                                            </i:Interaction.Behaviors>
-                                        </MenuItem>
-                                        <MenuItem Header="Удалить проект">
-                                            <i:Interaction.Behaviors>
-                                                 <Behaviors:DeleteProjectBehavior/>
-                                            </i:Interaction.Behaviors>
-                                        </MenuItem>
-                                        </ContextMenu>
-                                    </TreeViewItem.ContextMenu>
-                                <i:Interaction.Behaviors>
-                                    <Behaviors:TreeViewProjectBehavior/>
-                                </i:Interaction.Behaviors>
-                                <TreeViewItem.ItemTemplate>
-                                     <HierarchicalDataTemplate>
-                                        <TreeViewItem Header="{Binding Name}">
-                                            <TreeViewItem Header="{Binding Executor}"/>
-                                            <TreeViewItem.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TreeViewItem Header="{Binding Tasks.Name}">
-                                                        <TreeViewItem Header="{Binding Tasks.ExecutorFullName}"/>
-                                                    </TreeViewItem>
-                                                </DataTemplate>
-                                            </TreeViewItem.ItemTemplate>
-                                        </TreeViewItem>
-                                    </HierarchicalDataTemplate>
-                                    </TreeViewItem.ItemTemplate>
-                                </TreeViewItem>
-                            </TreeView>                      
-                    </DockPanel>
-                    
-                    <DockPanel DockPanel.Dock="Right">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:DockPanelBehavior/>
-                        </i:Interaction.Behaviors>                        
-                    </DockPanel>
-                </DockPanel>
+                <local:ProjectTab/>
             </TabItem>
             <TabItem Header="Персоны">
-                <Grid Background="#FFE5E5E5">
-
-                </Grid>
+                <local:PersonTab/>
             </TabItem>
             <TabItem x:Name="newTabItem" Header="+"/>
         </TabControl>

@@ -10,8 +10,7 @@ using System.Windows.Interactivity;
 namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
     class CancelChangeProjectBehavior : Behavior<Button>
-    {
-        public static event Action CancelChange;
+    {        
         protected override void OnAttached()
         {
             AssociatedObject.Click += CancelChangeEventHandler;
@@ -19,8 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
 
         private void CancelChangeEventHandler(object sender, RoutedEventArgs e)
         {
-            if (CancelChange != null)
-                CancelChange();
+            Events.ProjectCancelChange();
         }
 
         protected override void OnDetaching()

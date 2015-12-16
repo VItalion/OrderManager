@@ -13,21 +13,23 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
     {        
         protected override void OnAttached()
         {
-            CreateTask.CreateTaskBehavior.OnCreateTask += OnCreateTaskEventHandler;
+            Events.OnCreateTask += OnCreateTaskEventHandler;
         }
 
         private void OnCreateTaskEventHandler(Model.Task obj)
         {
             ListBoxItem block = new ListBoxItem();
             block.Content = obj.Name;
-            AssociatedObject.Items.Add(block);
-
-            Events.Change();
+            using (var context = new DataContext())
+            {
+                AssociatedObject.ItemsSource = context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();
+            }
+            Events.ProjectChange();            
         }
 
         protected override void OnDetaching()
         {
-            CreateTask.CreateTaskBehavior.OnCreateTask -= OnCreateTaskEventHandler;
+            Events.OnCreateTask -= OnCreateTaskEventHandler;
         }
     }
 }

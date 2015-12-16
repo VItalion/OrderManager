@@ -12,9 +12,9 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
     {
         protected override void OnAttached()
         {
-            Events.OnChange += ChangeEventHandler;
+            Events.OnProjectChange += ChangeEventHandler;
             
-            ProjectControl.SaveChangeBehavior.SaveChange += SaveChangeEventHandler;
+            Events.OnProjectSaveChange += SaveChangeEventHandler;
         }
 
         private void SaveChangeEventHandler()
@@ -29,9 +29,9 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
 
         protected override void OnDetaching()
         {
-            Events.OnChange -= ChangeEventHandler;
-            
-            ProjectControl.SaveChangeBehavior.SaveChange -= SaveChangeEventHandler;
+            Events.OnProjectChange -= ChangeEventHandler;
+
+            Events.OnProjectSaveChange -= SaveChangeEventHandler;
         }
     }
 }

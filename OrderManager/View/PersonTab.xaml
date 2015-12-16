@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="OrderManager.View.PersonTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrderManager.View"
+             xmlns:ExecutorBehavoirs="clr-namespace:OrderManager.ViewModel.Behaviors.ExecutorControl"
+             xmlns:CustomerBehaviors="clr-namespace:OrderManager.ViewModel.Behaviors.CustomerTab"
+             xmlns:TabBehaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ExecutorTab"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel>        
+        <TreeView DockPanel.Dock="Left" MinWidth="200">
+            <i:Interaction.Behaviors>
+                <ExecutorBehavoirs:PersonTreeViewBehavior/>
+            </i:Interaction.Behaviors>
+            <TreeViewItem x:Name="Customers" Header="Заказчики" ItemsSource="{Binding}">
+                <TreeViewItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить заказчика">
+                            <i:Interaction.Behaviors>
+                                <CustomerBehaviors:CreateCustomerBehavior/>
+                            </i:Interaction.Behaviors>
+                        </MenuItem>
+                        <MenuItem Header="Удалить заказчика">
+                            <i:Interaction.Behaviors>
+                                <CustomerBehaviors:DeleteCustomerBehavior/>
+                            </i:Interaction.Behaviors>
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeViewItem.ContextMenu>
+                <i:Interaction.Behaviors>
+                    <CustomerBehaviors:CustomerBehavior/>
+                </i:Interaction.Behaviors>
+                <TreeViewItem.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <TreeViewItem Header="{Binding FullName}"></TreeViewItem>
+                    </HierarchicalDataTemplate>
+                </TreeViewItem.ItemTemplate>
+            </TreeViewItem>
+            <TreeViewItem x:Name="Executors" Header="Исполнители" ItemsSource="{Binding}">
+                <TreeViewItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить исполнителя">
+                            <i:Interaction.Behaviors>
+                                <TabBehaviors:CreateExecutorBehavior/>
+                            </i:Interaction.Behaviors>
+                        </MenuItem>
+                        <MenuItem Header="Удалить исполнителя">
+                            <i:Interaction.Behaviors>
+                                <TabBehaviors:DeleteExecutorBehavior/>
+                            </i:Interaction.Behaviors>
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeViewItem.ContextMenu>
+                <i:Interaction.Behaviors>
+                    <TabBehaviors:ExecutorBehavior/>
+                </i:Interaction.Behaviors>
+                <TreeViewItem.ItemTemplate>
+                    <DataTemplate>
+                        <TreeViewItem Header="{Binding FullName}" ItemsSource="{Binding Tasks}">
+                            <TreeViewItem.ItemTemplate>
+                                <DataTemplate>
+                                    <TreeViewItem Header="{Binding Name}"/>
+                                </DataTemplate>
+                            </TreeViewItem.ItemTemplate>
+                        </TreeViewItem>
+                    </DataTemplate>
+                </TreeViewItem.ItemTemplate>
+            </TreeViewItem>
+        </TreeView>
+        <StackPanel DockPanel.Dock="Right">
+            <i:Interaction.Behaviors>
+                <ExecutorBehavoirs:ExecutorStackPanelBehavior/>
+                <CustomerBehaviors:CustomerStackPanelBehavior/>
+            </i:Interaction.Behaviors>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

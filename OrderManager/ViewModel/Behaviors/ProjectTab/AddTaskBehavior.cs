@@ -19,7 +19,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         private void AddTask(object sender, RoutedEventArgs e)
         {
             View.CreateTask ct = new View.CreateTask();
-            ct.DataContext = new Model.Task() { Project = AssociatedObject.DataContext as Model.Project };
+            ct.DataContext = new Model.Task() { Project = AssociatedObject.DataContext as Model.Project, DateOfCompletion = DateTime.Now };
             ct.ShowDialog();
         }
         protected override void OnDetaching()

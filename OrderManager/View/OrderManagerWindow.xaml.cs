@@ -22,16 +22,7 @@ namespace OrderManager.View
     {
         public OrderManagerWindow()
         {
-            InitializeComponent();
-
-            using (var context = new ViewModel.DataContext())
-            {
-                projectTree.DataContext = context.Projects.ToList();
-            }
-
-            //CommandBinding bind = new CommandBinding(ApplicationCommands.New);
-            //bind.Executed += Bind_Executed;
-            //CommandBindings.Add(bind);
+            InitializeComponent();            
         }       
     }
 }

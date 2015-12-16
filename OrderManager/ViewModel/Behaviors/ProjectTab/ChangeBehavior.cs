@@ -12,9 +12,21 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
     {
         protected override void OnAttached()
         {
-            Events.OnChange += ObserverBehavior_Change;
+            Events.OnProjectChange += ObserverBehavior_Change;
+            Events.OnProjectSaveChange += Events_OnProjectSaveChange;
+            Events.OnProjectCancelChange += Events_OnProjectCancelChange;
         }
-        
+
+        private void Events_OnProjectCancelChange()
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
+        private void Events_OnProjectSaveChange()
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
         private void ObserverBehavior_Change()
         {            
             AssociatedObject.IsEnabled = true;
@@ -22,7 +34,9 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         
         protected override void OnDetaching()
         {
-            Events.OnChange -= ObserverBehavior_Change;
+            Events.OnProjectChange -= ObserverBehavior_Change;
+            Events.OnProjectSaveChange -= Events_OnProjectSaveChange;
+            Events.OnProjectCancelChange -= Events_OnProjectCancelChange;
         }
     }
 }

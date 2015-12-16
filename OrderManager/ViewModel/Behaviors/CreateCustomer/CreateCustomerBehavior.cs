@@ -10,9 +10,7 @@ using System.Windows.Interactivity;
 namespace OrderManager.ViewModel.Behaviors.CreateCustomer
 {
     class CreateCustomerBehavior : Behavior<Button>
-    {
-        public static event Action<string> Created;
-
+    {        
         protected override void OnAttached()
         {
             AssociatedObject.Click += Create;
@@ -23,12 +21,8 @@ namespace OrderManager.ViewModel.Behaviors.CreateCustomer
             var b = e.OriginalSource as Button;
             var data = b.DataContext as Model.Customer;
 
-            using (var context = new DataContext())
-            {
-                context.Customers.Add(data);
-                context.SaveChanges();
-            }
-            Created(data.FullName);
+            Events.CreateCustomer(data);
+
             Application.Current.Windows.OfType<View.CreateCustomer>().Single().Close();
         }
 

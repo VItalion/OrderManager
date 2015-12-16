@@ -34,7 +34,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
             var data = cb.DataContext as Model.Project;
 
             if (data.Status != cb.SelectedValue.ToString())
-                Events.Change();
+                Events.ProjectChange();
 
             data.Status = cb.SelectedValue.ToString();
 

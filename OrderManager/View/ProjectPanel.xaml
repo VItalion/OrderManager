@@ -16,14 +16,12 @@
                 <i:Interaction.Behaviors>
                     <ChangeBehavior:SaveChangeBehavior/>
                     <Behaviors:ChangeBehavior/>
-                    <Behaviors:SaveChangeBehavior/>
                 </i:Interaction.Behaviors>
             </Button>
             <Button Content="Отмена" Margin="5" Width="70" IsEnabled="False">
                 <i:Interaction.Behaviors>
                     <Behaviors:CancelChangeProjectBehavior/>
                     <Behaviors:ChangeBehavior/>
-                    <Behaviors:SaveChangeBehavior/>
                 </i:Interaction.Behaviors>
             </Button>
         </StackPanel>

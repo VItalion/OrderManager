@@ -28,6 +28,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             }
 
             Events.AddProject();
+            Events.ProjectSaveChage();
 
             try
             {

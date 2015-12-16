@@ -18,13 +18,13 @@ namespace OrderManager.ViewModel.Behaviors.TaskControl
 
         private void ChangeExecutorName(object sender, KeyEventArgs e)
         {
-            var t = sender as TextBox;
+           /* var t = sender as TextBox;
             var data = t.DataContext as Model.Task;
 
             if (data.Executor == null)
                 data.Executor = new Model.Executor();
 
-            data.Executor.FullName = t.Text;
+            data.Executor.FullName = t.Text;*/
             //System.Windows.MessageBox.Show(data.Executor.FullName);
         }
     }

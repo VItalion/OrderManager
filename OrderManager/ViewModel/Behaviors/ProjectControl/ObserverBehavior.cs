@@ -18,7 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 
         private void AssociatedObject_KeyDown(object sender, KeyEventArgs e)
         {
-            Events.Change();
+            Events.ProjectChange();
         }
                 
         protected override void OnDetaching()

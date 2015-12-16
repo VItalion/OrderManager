@@ -5,57 +5,58 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interactivity;
 using OrderManager.Model;
 
 namespace OrderManager.ViewModel.Behaviors.ProjectTab
 {
-    class TreeViewProjectBehavior : Behavior<TreeViewItem>
+    class TreeViewProjectBehavior : Behavior<TreeView>
     {
-        //public delegate System.Threading.Tasks.Task SelectedProjectEventDelegate(Project project);
-        //public static event Func<Project, System.Threading.Tasks.Task> ProjectSelect;
-        
-
         protected override void OnAttached()
-        {
-            AssociatedObject.Selected += SelectProject;
+        {            
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
 
             Events.OnAddProject += AddProjectEventHandler;
             Events.OnDeleteProject += OnDeleteProjectEventHandler;
-            Events.OnChange += ChangeEventHandler;
-
-            ProjectControl.SaveChangeBehavior.SaveChange += SaveChangeEventHandler;
-            CancelChangeProjectBehavior.CancelChange += CancelCahngeEventHandler;
-            CreateTask.CancelTaskBehavior.OnCancel += CancelCahngeEventHandler;
+            Events.OnProjectChange += ChangeEventHandler;
+            Events.OnCreateTask += OnCreateTaskEventHandler;
+            Events.OnProjectSaveChange += SaveChangeEventHandler;
+            Events.OnProjectCancelChange += CancelCahngeEventHandler;            
         }
 
-        private void OnDeleteProjectEventHandler(List<Project> obj)
+        private void OnCreateTaskEventHandler(Model.Task obj)
+        {            
+            Update();
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
-            AssociatedObject.DataContext = obj;
+            Update();
+            Events.ShowProjectInformation();
+        }
+
+        private void SelectProject(object sender, MouseButtonEventArgs e)
+        {
+            var data = (sender as TreeViewItem).DataContext as Model.Project;
+            Events.SelectProject(data);
+        }
+
+        private void OnDeleteProjectEventHandler(Model.Project obj)
+        {
+            Update();
         }
 
         private void AddProjectEventHandler()
-        {
-            using (var context = new DataContext())
-            {
-                AssociatedObject.DataContext = context.Projects.ToList();
-            }
-            AssociatedObject.IsEnabled = true;
+        {            
+            Update();
         }
-
-        private void SelectProject(object sender, RoutedEventArgs e)
-        {
-            var projectTreeViewItem = sender as TreeViewItem;
-            var context = projectTreeViewItem.Parent as TreeView;
-            var data = context.SelectedItem as Model.Project;
-            
-            Events.SelectProject(data);
-            //Events.ProjectSelect(data);
-        }
-
+        
         private void SaveChangeEventHandler()
         {
             AssociatedObject.IsEnabled = true;
+            
+            Update();
         }
 
         private void ChangeEventHandler()
@@ -70,15 +71,86 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
 
         protected override void OnDetaching()
         {
-            AssociatedObject.Selected -= SelectProject;
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
 
             Events.OnAddProject -= AddProjectEventHandler;
             Events.OnDeleteProject -= OnDeleteProjectEventHandler;
-            Events.OnChange -= ChangeEventHandler;
+            Events.OnProjectChange -= ChangeEventHandler;
+            Events.OnCreateTask -= OnCreateTaskEventHandler;
+            Events.OnProjectSaveChange -= SaveChangeEventHandler;
+            Events.OnProjectCancelChange -= CancelCahngeEventHandler;            
+        }
 
-            ProjectControl.SaveChangeBehavior.SaveChange -= SaveChangeEventHandler;
-            CancelChangeProjectBehavior.CancelChange -= CancelCahngeEventHandler;                        
-            CreateTask.CancelTaskBehavior.OnCancel -= CancelCahngeEventHandler;
+        //Обновление содержимого дерева проектов
+        private void Update()
+        {
+            using (var context = new DataContext())
+            {                
+                AssociatedObject.Items.Clear();
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "Проекты";
+                textBlock.MouseLeftButtonDown += GeneralInformation;
+                AssociatedObject.Items.Add(textBlock);
+                foreach (var project in context.Projects)
+                {
+                    TreeViewItem item = new TreeViewItem();
+                    item.Header = project.Name;
+                    TextBlock tb = new TextBlock();
+                    tb.Text = project.Executor;
+                    tb.MouseLeftButtonDown += ExecutorSelect;
+                    tb.MouseRightButtonDown += SelectData;
+                    item.Items.Add(tb);
+                    if(project.Tasks!=null)
+                        foreach (var task in project.Tasks)
+                        {
+                            TreeViewItem taskItem = new TreeViewItem();
+                            taskItem.Header = task.Name;
+                            item.Items.Add(taskItem);
+                        }
+                    item.DataContext = project;
+                    item.PreviewMouseLeftButtonDown += SelectProject;
+                    item.PreviewMouseRightButtonDown += SelectData;
+                    AssociatedObject.Items.Add(item);
+                }
+            }
+        }
+
+        private void SelectData(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                var tb = sender as TextBlock;
+                var data = tb.DataContext as Model.Project;
+                ProjectControl.SelectedDataContext.Project = data;
+            }
+            catch
+            {
+                var tb = sender as TreeViewItem;
+                var data = tb.DataContext as Model.Project;
+                ProjectControl.SelectedDataContext.Project = data;
+            }            
+        }
+
+        private void GeneralInformation(object sender, MouseButtonEventArgs e)
+        {
+            Events.ShowProjectInformation();
+        }
+
+        private void ExecutorSelect(object sender, MouseButtonEventArgs e)
+        {
+            var tb = sender as TextBlock;
+            using (var context = new DataContext())
+            {
+                var executor = context.Executors.Where(ex => ex.FullName == tb.Text).SingleOrDefault();
+                if (executor == null)
+                {
+                    MessageBox.Show("Такого исполнителя не существует!");
+                                        
+                    Events.ShowProjectInformation();
+                    return;
+                }
+                Events.SelectExecutor(executor);
+            }
         }
     }
 }

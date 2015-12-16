@@ -8,15 +8,9 @@
         xmlns:Customer="clr-namespace:OrderManager.ViewModel.Behaviors.CreateCustomer"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="CreateCustomer" Height="460" Width="300">
-    <DockPanel>
-
-        <DockPanel.DataContext>
-            <Model:Customer/>
-        </DockPanel.DataContext>
-
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel DockPanel.Dock="Left" MinWidth="280">
+        Title="CreateCustomer" Height="460" Width="620">
+    <DockPanel>        
+            <StackPanel MinWidth="280">
                 <local:CustomerControl DataContext="{Binding}"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
                     <Button Content="Создать" Margin="5">
@@ -25,10 +19,11 @@
                         </i:Interaction.Behaviors>
                     </Button>
                     <Button Content="Отмена" Margin="5">
-                        
+                        <i:Interaction.Behaviors>
+                            <Customer:CancelCustomerBehavior/>
+                        </i:Interaction.Behaviors>
                     </Button>
                 </StackPanel>
             </StackPanel>
-        </ScrollViewer>
-    </DockPanel>
+        </DockPanel>
 </Window>

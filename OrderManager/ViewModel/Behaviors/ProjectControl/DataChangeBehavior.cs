@@ -35,7 +35,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
                                select p).Single();
 
                 if (project.DateOfCompletion != data.DateOfCompletion)
-                    Events.Change();
+                    Events.ProjectChange();
 
                 project.DateOfCompletion = data.DateOfCompletion;
             }

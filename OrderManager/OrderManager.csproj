@@ -61,6 +61,7 @@
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Blend.Interactivity.Wpf.1.0.1340.0\lib\net\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +84,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Behaviors\CreateExecutor\CancelExecutorBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CreateExecutor\CreateExecutorBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerControl\ImageBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerControl\OpenFileDialogBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\CancelChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\ChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\CreateCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\CustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\CustomerStackPanelBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\DeleteCustomerBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\CustomerTab\SelectedCustomer.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\CancelChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\ChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\PersonControl.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\ExecutorStackPanelBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\ImageBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\OpenFileDialogBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\PersonTreeViewBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorControl\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorTab\CreateExecutorBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorTab\DeleteExecutorBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorTab\ExecutorBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ExecutorTab\SelectedExecutor.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\AddCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\CancelChangeProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\ChangeProjectTreeViewBehavior.cs" />
@@ -98,18 +124,35 @@
     <Compile Include="ViewModel\Behaviors\ProjectControl\ObserverBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\ProjectCreateBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\SaveChangeBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectControl\StatusChangeBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectControl\TextBoxBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\SaveChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\TreeViewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TypeTab\CancelBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TypeTab\PersonTabBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TypeTab\ProjectTabBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TypeTab\TabBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TaskControl\ExecutorNameBehavior.cs" />
     <Compile Include="ViewModel\Events.cs" />
     <Compile Include="View\CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CreateExecutor.xaml.cs">
+      <DependentUpon>CreateExecutor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\CustomerControl.xaml.cs">
       <DependentUpon>CustomerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CustomerPanel.xaml.cs">
+      <DependentUpon>CustomerPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExecutorControl.xaml.cs">
+      <DependentUpon>ExecutorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExecutorPanel.xaml.cs">
+      <DependentUpon>ExecutorPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PersonTab.xaml.cs">
+      <DependentUpon>PersonTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ProjectControl.xaml.cs">
       <DependentUpon>ProjectControl.xaml</DependentUpon>
@@ -117,7 +160,17 @@
     <Compile Include="View\ProjectPanel.xaml.cs">
       <DependentUpon>ProjectPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ProjectTab.xaml.cs">
+      <DependentUpon>ProjectTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SelectTabType.xaml.cs">
+      <DependentUpon>SelectTabType.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\CreateCustomer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CreateExecutor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +183,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CustomerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExecutorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExecutorPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,11 +222,23 @@
       <DependentUpon>OrderManagerWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\PersonTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ProjectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ProjectPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProjectTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SelectTabType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,7 +265,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

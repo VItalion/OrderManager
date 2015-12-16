@@ -13,11 +13,14 @@ namespace OrderManager.Model
         [Key]
         public int Id { get; set; }
 
+        [MaxLength]
         [Column("Photo", TypeName = "image")]
         public byte[] Photo { get; set; }
 
         public string FullName { get; set; }
-        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
     }

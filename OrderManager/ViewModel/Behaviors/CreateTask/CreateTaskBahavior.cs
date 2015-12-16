@@ -10,8 +10,7 @@ using System.Windows.Interactivity;
 namespace OrderManager.ViewModel.Behaviors.CreateTask
 {
     public class CreateTaskBehavior : Behavior<Button>
-    {
-        public static event Action<Model.Task> OnCreateTask;
+    {        
         protected override void OnAttached()
         {
             AssociatedObject.Click += AddTask;
@@ -21,21 +20,20 @@ namespace OrderManager.ViewModel.Behaviors.CreateTask
         {
             var b = e.OriginalSource as Button;
             var task = b.DataContext as Model.Task;
-            task.Id++;
-                        
+            
             using (var context = new DataContext())
             {
                 var project = (from p in context.Projects
-                               where p.Id == ProjectControl.SelectedDataContext.Project.Id
-                               select p).Single();
-
-                if (project.Tasks == null)
-                    project.Tasks = new List<Model.Task>();
-                project.Tasks.Add(task);
-                context.SaveChanges();
+                                where p.Id == ProjectControl.SelectedDataContext.Project.Id
+                                select p).Single();
+                                
+                task.Project = project;
+                context.Tasks.Add(task);
+                            
+                context.SaveChanges();  
+                ProjectControl.SelectedDataContext.Project = project;   
             }
-                if (OnCreateTask != null)
-                    OnCreateTask(task);
+            Events.CreateTask(task);
 
             Application.Current.Windows.OfType<View.CreateTask>().Single().Close();
         }

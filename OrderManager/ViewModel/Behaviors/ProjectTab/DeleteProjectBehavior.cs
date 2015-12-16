@@ -19,7 +19,8 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         private void DeleteProject(object sender, RoutedEventArgs e)
         {
             //MessageBox.Show(ProjectControl.SelectedDataContext.Project.Name);
-            using (var context = new DataContext())
+            var context = new DataContext();
+            try
             {
                 var project = (from p in context.Projects
                                where p.Id == ProjectControl.SelectedDataContext.Project.Id
@@ -28,8 +29,12 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
                 context.SaveChanges();
 
                 //AssociatedObject.DataContext = context.Projects.ToList();
-                Events.DeleteProject(context.Projects.ToList());
-            }        
+                Events.DeleteProject(project);
+            }
+            catch
+            {
+                Events.ProjectSaveChage();
+            }      
         }
 
         protected override void OnDetaching()
