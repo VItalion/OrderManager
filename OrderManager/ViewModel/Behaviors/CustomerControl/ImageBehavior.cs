@@ -21,7 +21,9 @@ namespace OrderManager.ViewModel.Behaviors.CustomerControl
         private void AssociatedObject_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             if (CustomerTab.SelectedCustomer.Current != null)
-                using (MemoryStream ms = new MemoryStream(CustomerTab.SelectedCustomer.Current.Photo))
+            {
+                MemoryStream ms = new MemoryStream(CustomerTab.SelectedCustomer.Current.Photo);
+                try
                 {
                     System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
                     bi.BeginInit();
@@ -31,6 +33,12 @@ namespace OrderManager.ViewModel.Behaviors.CustomerControl
 
                     AssociatedObject.Source = bi;
                 }
+                catch { }
+                finally
+                {
+                    ms.Dispose();
+                }
+            }            
         }
 
         private void PhotoChangeEventHandler(string obj)

@@ -49,10 +49,7 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
             var control = new View.CustomerPanel();
             control.DataContext = new Model.Customer(SelectedCustomer.Customer);
             SelectedCustomer.Current = new Model.Customer(SelectedCustomer.Customer);
-            
-            //var data = DB.Context.Customers.Where((c) => c.Id == SelectedCustomer.Current.Id).Single();
-            //control.DataContext = data;
-            
+                        
             AssociatedObject.Children.Add(control);
         }
 

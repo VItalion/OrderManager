@@ -20,16 +20,23 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
         private void AssociatedObject_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            using(MemoryStream ms = new MemoryStream(ExecutorTab.SelectedExecutor.Current.Photo))
-            {
-                System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();                
-                bi.StreamSource = ms;
-                bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                bi.EndInit();
+            if (ExecutorTab.SelectedExecutor.Current != null)
+                if (ExecutorTab.SelectedExecutor.Current.Photo != null)
+                {
+                    MemoryStream ms = new MemoryStream(ExecutorTab.SelectedExecutor.Current.Photo);
+                    try
+                    {
+                        System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
+                        bi.BeginInit();
+                        bi.StreamSource = ms;
+                        bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                        bi.EndInit();
 
-                AssociatedObject.Source = bi;
-            }
+                        AssociatedObject.Source = bi;
+                    }
+                    catch { }
+                    finally { ms.Dispose(); }
+                }      
         }
 
         private void PhotoChangeEventHandler(string obj)
@@ -37,8 +44,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             if((obj != null) && (obj != ""))
             {
                 byte[] buffer = File.ReadAllBytes(obj);
-                AssociatedObject.DataContext = buffer;
-                //if (ExecutorTab.SelectedExecutor.Current.Photo == null)
+                AssociatedObject.DataContext = buffer;                
                 ExecutorTab.SelectedExecutor.Current.Photo = new byte[buffer.Length];
                 buffer.CopyTo(ExecutorTab.SelectedExecutor.Current.Photo, 0);
                 Events.PersonChange();

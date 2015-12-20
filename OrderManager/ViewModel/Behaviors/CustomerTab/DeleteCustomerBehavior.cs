@@ -18,7 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
         private void DeleteCustomer(object sender, RoutedEventArgs e)
         {
-            Events.DeleteCustomer(SelectedCustomer.Customer);
+            Events.DeleteCustomer(SelectedCustomer.Current);
         }
 
         protected override void OnDetaching()

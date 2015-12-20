@@ -12,19 +12,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
     {
         protected override void OnAttached()
         {
-            AssociatedObject.KeyDown += AssociatedObject_KeyDown;
-            AssociatedObject.Loaded += AssociatedObject_Loaded;
-        }
-
-        private void AssociatedObject_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            /*if (AssociatedObject.DataContext == null)
-                AssociatedObject.DataContext = new object();
-
-            if (AssociatedObject.DataContext.GetType() == typeof(Model.Executor))
-                ExecutorTab.SelectedExecutor.Executor = AssociatedObject.DataContext as Model.Executor;
-            else if (AssociatedObject.DataContext.GetType() == typeof(Model.Customer))
-                CustomerTab.SelectedCustomer.Customer = AssociatedObject.DataContext as Model.Customer;*/
+            AssociatedObject.KeyDown += AssociatedObject_KeyDown;           
         }
 
         private void AssociatedObject_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -34,8 +22,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
         protected override void OnDetaching()
         {
-            AssociatedObject.KeyDown -= AssociatedObject_KeyDown;
-            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+            AssociatedObject.KeyDown -= AssociatedObject_KeyDown;            
         }
     }
 }

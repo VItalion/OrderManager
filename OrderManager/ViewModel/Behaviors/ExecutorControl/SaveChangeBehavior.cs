@@ -36,8 +36,8 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
         }
 
         private void SaveCahnge(object sender, RoutedEventArgs e)
-        {            
-            var data = ExecutorTab.SelectedExecutor.Executor;
+        {
+            var data = ExecutorTab.SelectedExecutor.Current;
 
             Events.ExecutorSaveChange(data);
         }

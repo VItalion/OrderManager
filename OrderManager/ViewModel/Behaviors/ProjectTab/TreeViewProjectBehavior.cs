@@ -122,8 +122,8 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             }
             catch
             {
-                var tb = sender as TreeViewItem;
-                var data = tb.DataContext as Model.Project;
+                var tv = sender as TreeViewItem;
+                var data = tv.DataContext as Model.Project;
                 ProjectControl.DataSource.SelectedProject = data;
             }            
         }

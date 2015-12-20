@@ -27,20 +27,23 @@ namespace OrderManager.Model
 
         public Executor(Executor executor)
         {
-            Id = executor.Id;
-            FullName = executor.FullName;
-            Email = executor.Email;
-            PhoneNumber = executor.PhoneNumber;
-            Skype = executor.Skype;
-            if (executor.Tasks != null)
-                Tasks = new List<Task>(executor.Tasks);
-            else
-                Tasks = new List<Task>();
-            if (executor.Photo != null)
+            if(executor != null)
             {
-                Photo = new byte[executor.Photo.Length];
-                executor.Photo.CopyTo(Photo, 0);
-            }
+                Id = executor.Id;
+                FullName = executor.FullName;
+                Email = executor.Email;
+                PhoneNumber = executor.PhoneNumber;
+                Skype = executor.Skype;
+                if (executor.Tasks != null)
+                    Tasks = new List<Task>(executor.Tasks);
+                else
+                    Tasks = new List<Task>();
+                if (executor.Photo != null)
+                {
+                    Photo = new byte[executor.Photo.Length];
+                    executor.Photo.CopyTo(Photo, 0);
+                }
+            }                
         }
         public Executor()
         {

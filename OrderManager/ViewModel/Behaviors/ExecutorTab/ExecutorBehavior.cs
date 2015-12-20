@@ -14,14 +14,14 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
     class ExecutorBehavior : Behavior<TreeViewItem>
     {
         protected override void OnAttached()
-        {            
-           // AssociatedObject.Selected += SelectExecutor;
+        {
             AssociatedObject.Loaded += AssociatedObject_Loaded;
             AssociatedObject.PreviewMouseLeftButtonDown += GeneralInformation;
-            //Events.OnExecutorSaveCahnge += OnExecutorSaveChangeEventHandler;
-            //Events.OnExecutorCancelChange += OnExecutorCancelChangeEventHandler;
+            AssociatedObject.PreviewMouseRightButtonDown += SelectData;
+            Events.OnExecutorSaveCahnge += OnExecutorSaveChangeEventHandler;
+            Events.OnExecutorCancelChange += OnExecutorCancelChangeEventHandler;
             Events.OnCreateExecutor += OnCreateExecutorEventHandler;
-            //Events.OnDeleteExecutor += OnDeleteExecutorEventHandler;
+            Events.OnDeleteExecutor += OnDeleteExecutorEventHandler;
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
@@ -35,70 +35,55 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
             Events.ShowExecutorInformation();
         }
 
-        //private void OnDeleteExecutorEventHandler(Executor obj)
-        //{
-        //    var executor = DB.Context.Executors.Where(e => e.Id == obj.Id).Single();
+        private void OnDeleteExecutorEventHandler(Executor obj)
+        {
+            var executor = DB.Context.Executors.Where(e => e.Id == obj.Id).Single();
 
-        //    DB.Context.Executors.Remove(executor);
-        //    DB.Context.SaveChanges();
+            DB.Context.Executors.Remove(executor);
+            DB.Context.SaveChanges();
 
-        //    AssociatedObject.DataContext = DB.Context.Executors.ToList();            
-        //}
+            Update();
+            Events.ShowExecutorInformation();            
+        }
 
-        //private void OnExecutorCancelChangeEventHandler()
-        //{
-        //    var p = AssociatedObject.Parent as TreeView;
-        //    var current = p.SelectedItem as Executor;
+        private void OnExecutorCancelChangeEventHandler()
+        {
+            var p = AssociatedObject.Parent as TreeView;
+            var current = p.SelectedItem as Executor;
 
-        //    var data = DB.Context.Executors.Where((e) => e.Id == current.Id).Single();
-        //    current = data;
+            current = SelectedExecutor.Executor;
 
-        //    AssociatedObject.IsEnabled = true;
-        //}
-
-        //private void SelectExecutor(object sender, RoutedEventArgs e)
-        //{
-        //    var p = AssociatedObject.Parent as TreeView;
-        //    var current = p.SelectedItem as Executor;
-
-        //    Events.SelectExecutor(current);
-        //}
+            AssociatedObject.IsEnabled = true;
+        }
 
         private void OnCreateExecutorEventHandler(Executor obj)
         {
             DB.Context.Executors.Add(obj);
             DB.Context.SaveChanges();
-
-            //AssociatedObject.DataContext = DB.Context.Executors.ToList();
+                        
             Update();
             Events.ExecutorSaveChange(obj);
+            Events.SelectExecutor(obj);
         }
 
-        //private void OnExecutorSaveChangeEventHandler(Executor current)
-        //{
-        //    var data = DB.Context.Executors.Where(e => e.Id == current.Id).Single();
-        //    data.FullName = current.FullName;
-        //    data.Email = current.Email;
-        //    data.PhoneNumber = current.PhoneNumber;
-        //    data.Skype = current.Skype;
-        //    current.Photo.CopyTo(data.Photo, 0);
+        private void OnExecutorSaveChangeEventHandler(Executor current)
+        {
+            var data = new Model.Executor(current);
 
-        //    if (current.Tasks != null)
-        //        data.Tasks = new List<Model.Task>(current.Tasks);
+            DB.Context.SaveChanges();
 
-        //    DB.Context.SaveChanges();
-
-        //    AssociatedObject.IsEnabled = true;            
-        //}
+            AssociatedObject.IsEnabled = true;
+        }
 
         protected override void OnDetaching()
         {
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
-
-            //Events.OnExecutorSaveCahnge -= OnExecutorSaveChangeEventHandler;
-            //Events.OnExecutorCancelChange -= OnExecutorCancelChangeEventHandler;
+            AssociatedObject.PreviewMouseLeftButtonDown -= GeneralInformation;
+            AssociatedObject.PreviewMouseRightButtonDown -= SelectData;
+            Events.OnExecutorSaveCahnge -= OnExecutorSaveChangeEventHandler;
+            Events.OnExecutorCancelChange -= OnExecutorCancelChangeEventHandler;
             Events.OnCreateExecutor -= OnCreateExecutorEventHandler;
-            //Events.OnDeleteExecutor -= OnDeleteExecutorEventHandler;
+            Events.OnDeleteExecutor -= OnDeleteExecutorEventHandler;
         }
 
         private void Update()
@@ -128,8 +113,18 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
 
         private void SelectData(object sender, MouseButtonEventArgs e)
         {
-            SelectedExecutor.Executor = new Executor(AssociatedObject.DataContext as Executor);
-            SelectedExecutor.Current = AssociatedObject.DataContext as Executor;
+            var item = sender as TreeViewItem;
+            if(item.DataContext is Executor)
+            {
+                var data = item.DataContext as Model.Executor;
+                SelectedExecutor.Executor = new Model.Executor(data);
+                SelectedExecutor.Current = data;
+            }
+            else
+            {
+                SelectedExecutor.Executor = new Model.Executor();
+                SelectedExecutor.Current = new Model.Executor();
+            }            
         }
 
         private void SelectExecutor(object sender, MouseButtonEventArgs e)

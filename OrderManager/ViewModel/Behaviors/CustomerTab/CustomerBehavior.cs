@@ -14,13 +14,11 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
     {
         protected override void OnAttached()
         {
-            //AssociatedObject.Selected += SelectCustomer;
             AssociatedObject.Loaded += AssociatedObject_Loaded;
             AssociatedObject.PreviewMouseLeftButtonDown += ShowGlobalInformation;
             Events.OnCreateCustomer += OnCreateCustomerEventHandler;
-            //Events.OnDeleteCustomer += OnDeleteCustomerEventHandler;
+            Events.OnDeleteCustomer += OnDeleteCustomerEventHandler;
             Events.OnSaveChangeCustomer += OnSaveChangeCustomer;
-            //Events.OnCancelChangeCustomer += OnCancelChangeEventHandler;
         }
 
         private void ShowGlobalInformation(object sender, MouseButtonEventArgs e)
@@ -45,43 +43,33 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
             AssociatedObject.IsEnabled = true;
         }
 
-        //private void OnDeleteCustomerEventHandler(Customer obj)
-        //{
-        //    var customer = DB.Context.Customers.Where(e => e.Id == obj.Id).Single();
+        private void OnDeleteCustomerEventHandler(Model.Customer obj)
+        {
+            var customer = DB.Context.Customers.Where(e => e.Id == obj.Id).Single();            
+            DB.Context.Customers.Remove(customer);
+            SelectedCustomer.Current = null;
+            SelectedCustomer.Customer = null;
+            DB.Context.SaveChanges();
 
-        //    DB.Context.Customers.Remove(customer);
-        //    DB.Context.SaveChanges();
-
-        //    AssociatedObject.DataContext = DB.Context.Customers.ToList();
-        //}
+            Update();
+        }
 
         private void OnCreateCustomerEventHandler(Model.Customer obj)
         {
             DB.Context.Customers.Add(obj);
             DB.Context.SaveChanges();
-
-            //AssociatedObject.DataContext = DB.Context.Customers.ToList();
+            
             Update();
             Events.CustomerSaveChange(obj);
         }
-
-        //private void SelectCustomer(object sender, RoutedEventArgs e)
-        //{
-        //    var p = AssociatedObject.Parent as TreeView;
-        //    var current = p.SelectedItem as Model.Customer;
-
-        //    Events.SelectCustomer(current);
-        //}
-
+        
         protected override void OnDetaching()
         {
-            //AssociatedObject.Selected -= SelectCustomer;
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
             AssociatedObject.PreviewMouseLeftButtonDown -= ShowGlobalInformation;
             Events.OnCreateCustomer -= OnCreateCustomerEventHandler;
-            //Events.OnDeleteCustomer -= OnDeleteCustomerEventHandler;
-            Events.OnSaveChangeCustomer -= OnSaveChangeCustomer;
-            //Events.OnCancelChangeCustomer -= OnCancelChangeEventHandler;
+            Events.OnDeleteCustomer -= OnDeleteCustomerEventHandler;
+            Events.OnSaveChangeCustomer -= OnSaveChangeCustomer;           
         }
 
         private void Update()
@@ -111,8 +99,9 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
         private void SelectData(object sender, MouseButtonEventArgs e)
         {
-            SelectedCustomer.Customer = new Model.Customer(AssociatedObject.DataContext as Model.Customer);
-            SelectedCustomer.Current = AssociatedObject.DataContext as Model.Customer;
+            var item = sender as TreeViewItem;
+            SelectedCustomer.Customer = new Model.Customer(item.DataContext as Model.Customer);
+            SelectedCustomer.Current = item.DataContext as Model.Customer;
         }
 
         private void SelectCustomer(object sender, MouseButtonEventArgs e)

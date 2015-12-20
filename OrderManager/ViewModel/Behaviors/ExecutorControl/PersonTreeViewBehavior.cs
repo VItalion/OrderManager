@@ -33,7 +33,10 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             customer.City = obj.City;
             customer.Country = obj.Country;
             if (obj.Photo != null)
+            {
+                customer.Photo = new byte[obj.Photo.Length];
                 obj.Photo.CopyTo(customer.Photo, 0);
+            }                
             
             customer.Street = obj.Street;
             if (obj.Projects != null)
@@ -58,7 +61,10 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             executor.Email = obj.Email;
             executor.PhoneNumber = obj.PhoneNumber;
             if (obj.Photo != null)
+            {
+                executor.Photo = new byte[obj.Photo.Length];
                 obj.Photo.CopyTo(executor.Photo, 0);
+            }                
 
             executor.Skype = obj.Skype;
             if (obj.Tasks != null)
