@@ -9,11 +9,27 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrderManager</RootNamespace>
     <AssemblyName>OrderManager</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -84,12 +100,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\Behaviors\ApplicationBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateExecutor\CancelExecutorBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateExecutor\CreateExecutorBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerControl\ImageBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerControl\OpenFileDialogBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerTab\CancelChangeBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\CustomerTab\ChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerTab\CreateCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerTab\CustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerTab\CustomerStackPanelBehavior.cs" />
@@ -97,7 +113,6 @@
     <Compile Include="ViewModel\Behaviors\CustomerTab\SaveChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CustomerTab\SelectedCustomer.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorControl\CancelChangeBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ExecutorControl\ChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorControl\PersonControl.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorControl\ExecutorStackPanelBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorControl\ImageBehavior.cs" />
@@ -108,11 +123,9 @@
     <Compile Include="ViewModel\Behaviors\ExecutorTab\DeleteExecutorBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorTab\ExecutorBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ExecutorTab\SelectedExecutor.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectControl\SelectedDataContext.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\DataSource.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\AddCustomerBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectTab\CancelChangeProjectBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectTab\ChangeProjectTreeViewBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\ProjectTab\ChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\ProjectControl\CancelChangeProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CancelCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CreateCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\DeleteProjectBehavior.cs" />
@@ -132,6 +145,7 @@
     <Compile Include="ViewModel\Behaviors\TypeTab\ProjectTabBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TypeTab\TabBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TaskControl\ExecutorNameBehavior.cs" />
+    <Compile Include="ViewModel\DB.cs" />
     <Compile Include="ViewModel\Events.cs" />
     <Compile Include="View\CreateCustomer.xaml.cs">
       <DependentUpon>CreateCustomer.xaml</DependentUpon>
@@ -273,9 +287,22 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

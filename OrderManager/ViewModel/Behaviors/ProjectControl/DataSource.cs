@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrderManager.ViewModel.Behaviors.ProjectControl
 {
-    class SelectedDataContext
+    class DataSource
     {
-        public static Model.Project Project { get; set; }
+        public static Model.Project SelectedProject { get; set; }
+        public static Model.Project Buffer { get; set; }
     }
 }

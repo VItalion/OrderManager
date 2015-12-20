@@ -23,7 +23,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             try
             {
                 var project = (from p in context.Projects
-                               where p.Id == ProjectControl.SelectedDataContext.Project.Id
+                               where p.Id == ProjectControl.DataSource.SelectedProject.Id
                                select p).Single();
                 context.Projects.Remove(project);
                 context.SaveChanges();

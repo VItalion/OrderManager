@@ -5,20 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:ViewModel="clr-namespace:OrderManager.ViewModel" x:Class="OrderManager.View.OrderManagerWindow"
-        xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab"
-        xmlns:ChangeBehavior="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
+        xmlns:Application="clr-namespace:OrderManager.ViewModel.Behaviors"
+        xmlns:TypeTab="clr-namespace:OrderManager.ViewModel.Behaviors.TypeTab"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d" Height="600" Width="850" Title="Менеджер заказов" ResizeMode="CanMinimize">
-    
-    <DockPanel>
-        <TabControl HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TabItem Header="Проекты">
-                <local:ProjectTab/>
-            </TabItem>
-            <TabItem Header="Персоны">
-                <local:PersonTab/>
-            </TabItem>
-            <TabItem x:Name="newTabItem" Header="+"/>
-        </TabControl>
-    </DockPanel>
+    <i:Interaction.Behaviors>
+        <Application:ApplicationBehavior/>
+    </i:Interaction.Behaviors>
+    <TabControl>
+        <TabItem Header="Проекты">
+            <local:ProjectTab/>
+        </TabItem>
+        <TabItem Header="Персоны">
+            <local:PersonTab/>
+        </TabItem>
+        <TabItem x:Name="newTabItem" Header="+">
+            <i:Interaction.Behaviors>
+                <TypeTab:TabBehavior/>
+            </i:Interaction.Behaviors>
+        </TabItem>
+    </TabControl>    
 </Window>

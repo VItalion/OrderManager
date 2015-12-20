@@ -8,7 +8,7 @@
         xmlns:Customer="clr-namespace:OrderManager.ViewModel.Behaviors.CreateCustomer"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="CreateCustomer" Height="460" Width="620">
+        Title="CreateCustomer" Height="500" Width="630">
     <DockPanel>        
             <StackPanel MinWidth="280">
                 <local:CustomerControl DataContext="{Binding}"/>

@@ -19,8 +19,8 @@ namespace OrderManager.ViewModel.Behaviors.CreateCustomer
         private void Create(object sender, RoutedEventArgs e)
         {
             var b = e.OriginalSource as Button;
-            var data = b.DataContext as Model.Customer;
-
+            //var data = b.DataContext as Model.Customer;
+            var data = CustomerTab.SelectedCustomer.Customer;
             Events.CreateCustomer(data);
 
             Application.Current.Windows.OfType<View.CreateCustomer>().Single().Close();

@@ -84,34 +84,31 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         //Обновление содержимого дерева проектов
         private void Update()
         {
-            using (var context = new DataContext())
-            {                
-                AssociatedObject.Items.Clear();
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = "Проекты";
-                textBlock.MouseLeftButtonDown += GeneralInformation;
-                AssociatedObject.Items.Add(textBlock);
-                foreach (var project in context.Projects)
-                {
-                    TreeViewItem item = new TreeViewItem();
-                    item.Header = project.Name;
-                    TextBlock tb = new TextBlock();
-                    tb.Text = project.Executor;
-                    tb.MouseLeftButtonDown += ExecutorSelect;
-                    tb.MouseRightButtonDown += SelectData;
-                    item.Items.Add(tb);
-                    if(project.Tasks!=null)
-                        foreach (var task in project.Tasks)
-                        {
-                            TreeViewItem taskItem = new TreeViewItem();
-                            taskItem.Header = task.Name;
-                            item.Items.Add(taskItem);
-                        }
-                    item.DataContext = project;
-                    item.PreviewMouseLeftButtonDown += SelectProject;
-                    item.PreviewMouseRightButtonDown += SelectData;
-                    AssociatedObject.Items.Add(item);
-                }
+            AssociatedObject.Items.Clear();
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = "Проекты";
+            textBlock.MouseLeftButtonDown += GeneralInformation;
+            AssociatedObject.Items.Add(textBlock);
+            foreach (var project in DB.Context.Projects)
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = project.Name;
+                TextBlock tb = new TextBlock();
+                tb.Text = project.Executor;
+                tb.MouseLeftButtonDown += ExecutorSelect;
+                tb.MouseRightButtonDown += SelectData;
+                item.Items.Add(tb);
+                if (project.Tasks != null)
+                    foreach (var task in project.Tasks)
+                    {
+                        TreeViewItem taskItem = new TreeViewItem();
+                        taskItem.Header = task.Name;
+                        item.Items.Add(taskItem);
+                    }
+                item.DataContext = project;
+                item.PreviewMouseLeftButtonDown += SelectProject;
+                item.PreviewMouseRightButtonDown += SelectData;
+                AssociatedObject.Items.Add(item);
             }
         }
 
@@ -121,13 +118,13 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             {
                 var tb = sender as TextBlock;
                 var data = tb.DataContext as Model.Project;
-                ProjectControl.SelectedDataContext.Project = data;
+                ProjectControl.DataSource.SelectedProject = data;
             }
             catch
             {
                 var tb = sender as TreeViewItem;
                 var data = tb.DataContext as Model.Project;
-                ProjectControl.SelectedDataContext.Project = data;
+                ProjectControl.DataSource.SelectedProject = data;
             }            
         }
 
@@ -139,18 +136,15 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         private void ExecutorSelect(object sender, MouseButtonEventArgs e)
         {
             var tb = sender as TextBlock;
-            using (var context = new DataContext())
+            var executor = DB.Context.Executors.Where(ex => ex.FullName == tb.Text).SingleOrDefault();
+            if (executor == null)
             {
-                var executor = context.Executors.Where(ex => ex.FullName == tb.Text).SingleOrDefault();
-                if (executor == null)
-                {
-                    MessageBox.Show("Такого исполнителя не существует!");
-                                        
-                    Events.ShowProjectInformation();
-                    return;
-                }
-                Events.SelectExecutor(executor);
+                MessageBox.Show("Такого исполнителя не существует!");
+
+                Events.ShowProjectInformation();
+                return;
             }
+            Events.SelectExecutor(executor);            
         }
     }
 }

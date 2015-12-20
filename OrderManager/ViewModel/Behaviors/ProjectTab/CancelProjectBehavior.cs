@@ -20,11 +20,20 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         {
             try
             {
+                if (ProjectControl.DataSource.Buffer.Tasks != null)
+                    ProjectControl.DataSource.Buffer.Tasks.Clear();
+
+                if (ProjectControl.DataSource.Buffer.Customers != null)
+                    ProjectControl.DataSource.Buffer.Customers.Clear();
+
+                ProjectControl.DataSource.Buffer = null;
+
+                Events.ProjectCancelChange();
                 Application.Current.Windows.OfType<View.CreateProject>().Single().Close();
             }
             catch
             {
-                Application.Current.Shutdown();
+                //Application.Current.Shutdown();
             }
         }
 

@@ -21,14 +21,12 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         //Вывод общих сведений
         private void OnShowInformationEventHandler()
         {
-            List<Project> list = new List<Project>();
-            using (var context = new DataContext())
+            List<Project> list = new List<Project>();            
+            foreach(var project in DB.Context.Projects)
             {
-                foreach(var project in context.Projects)
-                {
-                    list.Add(new Project() { Name = project.Name, DateOfComplection = project.DateOfCompletion, Executor = project.Executor, Status = project.Status});
-                }
+                list.Add(new Project() { Name = project.Name, DateOfComplection = project.DateOfCompletion, Executor = project.Executor, Status = project.Status });
             }
+            
             if (list.Count != 0)
             {
                 DataGrid grid = new DataGrid();
@@ -57,7 +55,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             await Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(3000);
-                Dispatcher.Invoke(() => { control.DataContext = obj; });
+                Dispatcher.Invoke(() => { control.DataContext = obj; });                
             });
         }
 
@@ -65,7 +63,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         {
             AssociatedObject.Children.Clear();            
             View.ProjectPanel control = new View.ProjectPanel();
-            control.DataContext = ProjectControl.SelectedDataContext.Project;
+            control.DataContext = DB.Context.Projects.Where(p => p.Id == ProjectControl.DataSource.SelectedProject.Id).Single();
             AssociatedObject.Children.Add(control);
         }
 

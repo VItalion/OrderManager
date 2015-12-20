@@ -21,10 +21,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
             var b = sender as Button;
             var data = b.DataContext as Model.Project;
 
-            using (var context = new DataContext())
-            {
-                context.Projects.Add(data);
-            }
+            DB.Context.Projects.Add(data);            
         }
 
         protected override void OnDetaching()

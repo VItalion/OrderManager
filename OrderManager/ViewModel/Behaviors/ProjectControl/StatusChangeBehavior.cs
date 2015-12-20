@@ -22,7 +22,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
             try
             {
                 var cb = sender as ComboBox;
-                var data = SelectedDataContext.Project;
+                var data = DataSource.SelectedProject;
                 cb.SelectedItem = data.Status;
             }
             catch { }

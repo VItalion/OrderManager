@@ -14,16 +14,37 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
         protected override void OnAttached()
         {
             AssociatedObject.Click += CancelChange;
+            Events.OnExecutorSaveCahnge += SaveChangeEventHandler;
+            Events.OnExecutorCancelChange += CancelChangeEventHandler;
+            Events.OnPersonChange += Events_OnPersonChange;
+        }
+
+        private void Events_OnPersonChange()
+        {
+            AssociatedObject.IsEnabled = true;
         }
 
         private void CancelChange(object sender, RoutedEventArgs e)
         {
             Events.ExecutorCancelChange();
         }
-                
+
+        private void CancelChangeEventHandler()
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
+        private void SaveChangeEventHandler(Model.Executor obj)
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
         protected override void OnDetaching()
         {
             AssociatedObject.Click -= CancelChange;
+            Events.OnExecutorSaveCahnge -= SaveChangeEventHandler;
+            Events.OnExecutorCancelChange -= CancelChangeEventHandler;
+            Events.OnPersonChange -= Events_OnPersonChange;
         }
     }
 }

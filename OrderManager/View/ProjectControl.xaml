@@ -16,7 +16,6 @@
         <Behaviors:ProjcetControlBehavior/>        
     </i:Interaction.Behaviors>
     <DockPanel>
-
         <StackPanel DockPanel.Dock="Left" MinWidth="400">
             <Label Content="Название проекта:"/>
             <TextBox Margin="5" Text="{Binding Name}"/>
@@ -47,7 +46,7 @@
 
                 </Button>
             </StackPanel>
-            <Label Content="Список заказчтков:"/>
+            <Label Content="Список заказчиков:"/>
             <ListBox ItemsSource="{Binding Customers}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

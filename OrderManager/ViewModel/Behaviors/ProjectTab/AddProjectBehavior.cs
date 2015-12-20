@@ -21,12 +21,9 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             var b = e.OriginalSource as Button;
             var newProject = b.DataContext as Model.Project;
 
-            using (var context = new DataContext())
-            {
-                context.Projects.Add(newProject);
-                context.SaveChanges();
-            }
-
+            DB.Context.Projects.Add(newProject);
+            DB.Context.SaveChanges();
+            
             Events.AddProject();
             Events.ProjectSaveChage();
 

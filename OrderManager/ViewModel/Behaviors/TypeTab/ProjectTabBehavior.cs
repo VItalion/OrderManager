@@ -18,7 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.TypeTab
 
         private void CreateProjectTab(object sender, RoutedEventArgs e)
         {
-            
+            Events.CreteProjectTab();
         }
                 
         protected override void OnDetaching()

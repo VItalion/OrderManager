@@ -18,13 +18,28 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
 
         private void OnCreateTaskEventHandler(Model.Task obj)
         {
-            ListBoxItem block = new ListBoxItem();
-            block.Content = obj.Name;
-            using (var context = new DataContext())
+            if (DataSource.Buffer == null)
             {
-                AssociatedObject.ItemsSource = context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();
+                if (obj.Project.Id == DataSource.SelectedProject.Id)
+                {
+                    ListBoxItem block = new ListBoxItem();
+                    block.Content = obj.Name;
+                    //AssociatedObject.ItemsSource = DB.Context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();  
+                    AssociatedObject.ItemsSource = DataSource.SelectedProject.Tasks.ToList();
+                    Events.ProjectChange();
+                }
             }
-            Events.ProjectChange();            
+            else
+            {
+                if (obj.Project.Id == (AssociatedObject.DataContext as Project).Id)
+                {
+                    ListBoxItem block = new ListBoxItem();
+                    block.Content = obj.Name;
+                    //AssociatedObject.ItemsSource = DB.Context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();  
+                    AssociatedObject.ItemsSource = DataSource.Buffer.Tasks.ToList();
+                    Events.ProjectChange();
+                }
+            }
         }
 
         protected override void OnDetaching()

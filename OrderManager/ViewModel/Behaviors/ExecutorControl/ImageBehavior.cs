@@ -40,16 +40,13 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             try
             {
                 System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();
-                //bi.UriSource = new Uri(obj, UriKind.Relative);
+                bi.BeginInit();                
                 bi.StreamSource = ms;
                 bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
                 bi.EndInit();
-
-                //AssociatedObject.Source = bi;
-                AssociatedObject.DataContext = buffer;
-                ExecutorTab.SelectedExecutor.Executor.Photo = buffer;                
                                 
+                AssociatedObject.DataContext = buffer;                         
+
                 Events.PersonChange();
             }
             catch { }

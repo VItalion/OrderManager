@@ -17,6 +17,8 @@ namespace OrderManager.ViewModel
         public static event Action OnProjectSaveChange;
         public static event Action OnShowProjectInformation;
         public static event Action<Model.Task> OnCreateTask;
+
+        public static event Action OnCreateProjectTab;
         #endregion
 
         #region ExecutorEvents
@@ -27,6 +29,9 @@ namespace OrderManager.ViewModel
         public static event Action<Model.Executor> OnCreateExecutor;
         public static event Action<Model.Executor> OnDeleteExecutor;
         public static event Action<Model.Executor> OnSelectExecutor;
+        public static event Action OnShowExecutorInformation;
+
+        public static event Action OnCreatePersonTab;
         #endregion
 
         #region CustomerEvents
@@ -52,7 +57,7 @@ namespace OrderManager.ViewModel
         {
             if (OnSelectProject != null)
                 OnSelectProject(project);
-            Behaviors.ProjectControl.SelectedDataContext.Project = project;
+            Behaviors.ProjectControl.DataSource.SelectedProject = project;
         }
         public static void DeleteProject(Model.Project project)
         {
@@ -78,6 +83,12 @@ namespace OrderManager.ViewModel
         {
             if (OnCreateTask != null)
                 OnCreateTask(task);
+        }
+
+        public static void CreteProjectTab()
+        {
+            if (OnCreateProjectTab != null)
+                OnCreateProjectTab();
         }
         #endregion
 
@@ -118,6 +129,17 @@ namespace OrderManager.ViewModel
                 OnSelectExecutor(executor);
 
             Behaviors.ExecutorTab.SelectedExecutor.Executor = executor;
+        }
+        public static void ShowExecutorInformation()
+        {
+            if (OnShowExecutorInformation != null)
+                OnShowExecutorInformation();
+        }
+
+        public static void CreatePersonTab()
+        {
+            if (OnCreatePersonTab != null)
+                OnCreatePersonTab();
         }
         #endregion
 

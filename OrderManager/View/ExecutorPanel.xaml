@@ -9,25 +9,22 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel>
-        <DockPanel>
-            <DockPanel DockPanel.Dock="Top">
-                <local:ExecutorControl DataContext="{Binding}"/>
-            </DockPanel>
-            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Content="Ок" Margin="5" Height="20" Width="70" IsEnabled="False">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:SaveChangeBehavior/>
-                        <Behaviors:ChangeBehavior/>
-                    </i:Interaction.Behaviors>
-                </Button>
-                <Button Content="Отмена" Margin="5" Height="20" Width="70" IsEnabled="False">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:CancelChangeBehavior/>
-                        <Behaviors:ChangeBehavior/>
-                    </i:Interaction.Behaviors>
-                </Button>
-            </StackPanel>
-        </DockPanel>
-    </StackPanel>
+    <i:Interaction.Behaviors>
+        <Behaviors:PersonControl/>
+    </i:Interaction.Behaviors>
+    <DockPanel>
+        <local:ExecutorControl DataContext="{Binding}" DockPanel.Dock="Top"/>
+        <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Content="Ок" Margin="5" Height="20" Width="70" IsEnabled="False">
+                <i:Interaction.Behaviors>
+                    <Behaviors:SaveChangeBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Button Content="Отмена" Margin="5" Height="20" Width="70" IsEnabled="False">
+                <i:Interaction.Behaviors>
+                    <Behaviors:CancelChangeBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </DockPanel>
 </UserControl>

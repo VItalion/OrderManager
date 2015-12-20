@@ -7,8 +7,8 @@
         xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.TypeTab"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="SelectTabType" Height="300" Width="300">
-    <StackPanel>        <!--Доработаю, после базы данных-->
+        Title="SelectTabType" Height="130" Width="200">
+    <StackPanel>
         <Button Content="Проекты" Margin="5">
             <i:Interaction.Behaviors>
                 <Behaviors:ProjectTabBehavior/>
@@ -21,7 +21,7 @@
         </Button>
         <Button Content="Отмена" Margin="5">
             <i:Interaction.Behaviors>
-
+                <Behaviors:CancelBehavior/>
             </i:Interaction.Behaviors>
         </Button>
     </StackPanel>

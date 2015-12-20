@@ -27,23 +27,16 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
             }
             catch { }
 
-            var context = new DataContext();
             try
             {
-                var project = (from p in context.Projects
-                               where p.Id == data.Id
-                               select p).Single();
+                var project = DB.Context.Projects.Where(p => p.Id == data.Id).Single();
 
                 if (project.DateOfCompletion != data.DateOfCompletion)
                     Events.ProjectChange();
 
                 project.DateOfCompletion = data.DateOfCompletion;
             }
-            catch { }
-            finally
-            {
-                context.Dispose();
-            }        
+            catch { }            
         }
 
         protected override void OnDetaching()

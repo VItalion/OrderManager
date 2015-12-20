@@ -14,35 +14,61 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
         protected override void OnAttached()
         {
             AssociatedObject.Click += AssociatedObject_Click;
+
+            Events.OnProjectChange += ObserverBehavior_Change;
+            Events.OnProjectSaveChange += Events_OnProjectSaveChange;
+            Events.OnProjectCancelChange += Events_OnProjectCancelChange;
         }
 
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
-        {
-            var context = new DataContext();
+        {            
             try
             {
                 var b = e.OriginalSource as Button;
                 var current = b.DataContext as Model.Project;
-                var project = context.Projects.Where(p=>p.Id == current.Id).Single();
+                var project = DB.Context.Projects.Where(p=>p.Id == current.Id).Single();
                 
-                context.Entry(project).State = System.Data.Entity.EntityState.Modified;             //Попытка сделать изминения вручную (провал)
-                
-                project = current;
-                
-                context.SaveChanges();
+                project.Name = current.Name;
+                project.Executor = current.Executor;
+                project.PlannedBudget = current.PlannedBudget;
+                project.RealBudget = current.RealBudget;
+                project.Status = current.Status;
+                project.Tasks = new List<Model.Task>(current.Tasks);
+                project.DateOfCompletion = current.DateOfCompletion;
+                project.Customers = new List<Model.Customer>(current.Customers);
+
+                DB.Context.SaveChanges();
             }
             catch(Exception ex)
             {
-               Console.WriteLine($"{ex.Source} exception: {ex.Message}");
+               Console.WriteLine("{0} exception: {1}", ex.Source, ex.Message);
             }
-            finally { context.Dispose(); }
 
             Events.ProjectSaveChage(); 
+        }
+
+        private void Events_OnProjectCancelChange()
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
+        private void Events_OnProjectSaveChange()
+        {
+            AssociatedObject.IsEnabled = false;
+        }
+
+        private void ObserverBehavior_Change()
+        {
+            AssociatedObject.IsEnabled = true;
         }
 
         protected override void OnDetaching()
         {
             AssociatedObject.Click -= AssociatedObject_Click;
+
+            Events.OnProjectChange -= ObserverBehavior_Change;
+            Events.OnProjectSaveChange -= Events_OnProjectSaveChange;
+            Events.OnProjectCancelChange -= Events_OnProjectCancelChange;
         }
     }
 }

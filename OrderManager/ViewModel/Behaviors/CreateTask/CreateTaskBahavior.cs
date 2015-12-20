@@ -20,19 +20,14 @@ namespace OrderManager.ViewModel.Behaviors.CreateTask
         {
             var b = e.OriginalSource as Button;
             var task = b.DataContext as Model.Task;
-            
-            using (var context = new DataContext())
-            {
-                var project = (from p in context.Projects
-                                where p.Id == ProjectControl.SelectedDataContext.Project.Id
-                                select p).Single();
-                                
-                task.Project = project;
-                context.Tasks.Add(task);
-                            
-                context.SaveChanges();  
-                ProjectControl.SelectedDataContext.Project = project;   
-            }
+
+            var project = (ProjectControl.DataSource.Buffer != null) ? ProjectControl.DataSource.Buffer : ProjectControl.DataSource.SelectedProject;
+
+            task.Project = project;
+            if (project.Tasks == null)
+                project.Tasks = new List<Model.Task>();
+            project.Tasks.Add(task);
+              
             Events.CreateTask(task);
 
             Application.Current.Windows.OfType<View.CreateTask>().Single().Close();

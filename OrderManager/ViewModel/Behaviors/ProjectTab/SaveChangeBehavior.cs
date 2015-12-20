@@ -13,7 +13,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
     {
         protected override void OnAttached()
         {
-            AssociatedObject.Click += SaveChange;
+            AssociatedObject.Click += SaveChange;            
         }
 
         private void SaveChange(object sender, RoutedEventArgs e)
@@ -23,10 +23,10 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
 
             Events.ExecutorSaveChange(data);
         }
-
+                
         protected override void OnDetaching()
         {
-            AssociatedObject.Click -= SaveChange;
+            AssociatedObject.Click -= SaveChange;            
         }
     }
 }

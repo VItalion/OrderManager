@@ -23,12 +23,10 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
             var control = new View.CustomerPanel();
             control.DataContext = SelectedCustomer.Customer;
-           
-            using (var context = new DataContext())
-            {
-                var data = context.Customers.Where((c) => c.Id == SelectedCustomer.Customer.Id).Single();
-                control.DataContext = data;
-            }
+            
+            var data = DB.Context.Customers.Where((c) => c.Id == SelectedCustomer.Customer.Id).Single();
+            control.DataContext = data;
+            
             AssociatedObject.Children.Add(control);
         }
 
@@ -42,7 +40,23 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
             await System.Threading.Tasks.Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(3000);
-                Dispatcher.Invoke(() => control.DataContext = obj);
+                control.Dispatcher.Invoke(() =>
+                {
+                    var data = new Model.Customer();
+                    data.Id = obj.Id;
+                    data.FullName = obj.FullName;
+                    data.Country = obj.Country;
+                    data.City = obj.City;
+                    data.Projects = new List<Model.Project>(obj.Projects);
+                    data.Street = obj.Street;
+                    if(obj.Photo!=null)
+                    {
+                        data.Photo = new byte[obj.Photo.Length];
+                        obj.Photo.CopyTo(data.Photo, 0);
+                    }
+
+                    control.DataContext = data;
+                });
             });
         }
                 

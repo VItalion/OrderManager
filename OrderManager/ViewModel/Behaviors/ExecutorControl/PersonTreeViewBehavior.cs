@@ -20,11 +20,27 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
         private void Events_OnExecutorCancelChange()
         {
             AssociatedObject.IsEnabled = true;
+
+            ExecutorTab.SelectedExecutor.Executor = DB.Context.Executors.Where(e => e.Id == ExecutorTab.SelectedExecutor.Executor.Id).Single();
         }
 
         private void Events_OnExecutorSaveCahnge(Model.Executor obj)
         {
             AssociatedObject.IsEnabled = true;
+
+            var executor = DB.Context.Executors.Where(e => e.Id == obj.Id).Single();
+            executor.FullName = obj.FullName;
+            executor.Email = obj.Email;
+            executor.PhoneNumber = obj.PhoneNumber;
+            if (obj.Photo != null)
+            {
+                //executor.Photo = new byte[obj.Photo.Length];
+                obj.Photo.CopyTo(executor.Photo, 0);
+            }
+            executor.Skype = obj.Skype;
+            executor.Tasks = new List<Model.Task>(obj.Tasks);
+
+            DB.Context.SaveChanges();
         }
 
         private void OnPersonChangeEventHandler()

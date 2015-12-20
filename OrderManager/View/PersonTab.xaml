@@ -15,7 +15,7 @@
             <i:Interaction.Behaviors>
                 <ExecutorBehavoirs:PersonTreeViewBehavior/>
             </i:Interaction.Behaviors>
-            <TreeViewItem x:Name="Customers" Header="Заказчики" ItemsSource="{Binding}">
+            <TreeViewItem Header="Заказчики">
                 <TreeViewItem.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Добавить заказчика">
@@ -32,14 +32,9 @@
                 </TreeViewItem.ContextMenu>
                 <i:Interaction.Behaviors>
                     <CustomerBehaviors:CustomerBehavior/>
-                </i:Interaction.Behaviors>
-                <TreeViewItem.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        <TreeViewItem Header="{Binding FullName}"></TreeViewItem>
-                    </HierarchicalDataTemplate>
-                </TreeViewItem.ItemTemplate>
+                </i:Interaction.Behaviors>                
             </TreeViewItem>
-            <TreeViewItem x:Name="Executors" Header="Исполнители" ItemsSource="{Binding}">
+            <TreeViewItem Header="Исполнители">
                 <TreeViewItem.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Добавить исполнителя">
@@ -57,17 +52,6 @@
                 <i:Interaction.Behaviors>
                     <TabBehaviors:ExecutorBehavior/>
                 </i:Interaction.Behaviors>
-                <TreeViewItem.ItemTemplate>
-                    <DataTemplate>
-                        <TreeViewItem Header="{Binding FullName}" ItemsSource="{Binding Tasks}">
-                            <TreeViewItem.ItemTemplate>
-                                <DataTemplate>
-                                    <TreeViewItem Header="{Binding Name}"/>
-                                </DataTemplate>
-                            </TreeViewItem.ItemTemplate>
-                        </TreeViewItem>
-                    </DataTemplate>
-                </TreeViewItem.ItemTemplate>
             </TreeViewItem>
         </TreeView>
         <StackPanel DockPanel.Dock="Right">

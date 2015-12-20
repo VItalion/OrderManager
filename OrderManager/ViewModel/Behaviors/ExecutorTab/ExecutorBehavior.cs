@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interactivity;
 using OrderManager.Model;
 
@@ -14,34 +15,34 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
     {
         protected override void OnAttached()
         {            
-            AssociatedObject.Selected += SelectExecutor;
+           // AssociatedObject.Selected += SelectExecutor;
             AssociatedObject.Loaded += AssociatedObject_Loaded;
-
-            Events.OnExecutorSaveCahnge += OnExecutorSaveChangeEventHandler;
+            AssociatedObject.PreviewMouseLeftButtonDown += GeneralInformation;
+            /*Events.OnExecutorSaveCahnge += OnExecutorSaveChangeEventHandler;
             Events.OnExecutorCancelChange += OnExecutorCancelChangeEventHandler;
             Events.OnCreateExecutor += OnCreateExecutorEventHandler;
-            Events.OnDeleteExecutor += OnDeleteExecutorEventHandler;
+            Events.OnDeleteExecutor += OnDeleteExecutorEventHandler;*/
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
-            using (var context = new DataContext())
-            {
-                AssociatedObject.DataContext = context.Executors.ToList();
-            }
+            AssociatedObject.DataContext = DB.Context.Executors.ToList();
+            Update();
         }
 
-        private void OnDeleteExecutorEventHandler(Executor obj)
+        private void GeneralInformation(object sender, MouseButtonEventArgs e)
         {
-            using (var context = new DataContext())
-            {
-                var executor = context.Executors.Where(e => e.Id == obj.Id).Single();
+            Events.ShowExecutorInformation();
+        }
 
-                context.Executors.Remove(executor);
-                context.SaveChanges();
+        /*private void OnDeleteExecutorEventHandler(Executor obj)
+        {
+            var executor = DB.Context.Executors.Where(e => e.Id == obj.Id).Single();
 
-                AssociatedObject.DataContext = context.Executors.ToList();
-            }
+            DB.Context.Executors.Remove(executor);
+            DB.Context.SaveChanges();
+
+            AssociatedObject.DataContext = DB.Context.Executors.ToList();            
         }
 
         private void OnExecutorCancelChangeEventHandler()
@@ -49,11 +50,8 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
             var p = AssociatedObject.Parent as TreeView;
             var current = p.SelectedItem as Executor;
 
-            using (var context = new DataContext())
-            {
-                var data = context.Executors.Where((e) => e.Id == current.Id).Single();
-                current = data;
-            }
+            var data = DB.Context.Executors.Where((e) => e.Id == current.Id).Single();
+            current = data;
 
             AssociatedObject.IsEnabled = true;
         }
@@ -68,51 +66,75 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorTab
 
         private void OnCreateExecutorEventHandler(Executor obj)
         {
-             using (var context = new DataContext())
-             {
-                 context.Executors.Add(obj);
-                 context.SaveChanges();
+            DB.Context.Executors.Add(obj);
+            DB.Context.SaveChanges();
 
-                 AssociatedObject.DataContext = context.Executors.ToList();
-                 Events.ExecutorSaveChange(obj);
-             }            
+            AssociatedObject.DataContext = DB.Context.Executors.ToList();
+            Events.ExecutorSaveChange(obj);         
         }
 
         private void OnExecutorSaveChangeEventHandler(Executor current)
         {
-            var context = new DataContext();
-            try
-            {
-                var data = context.Executors.Where(e => e.Id == current.Id).Single();
-                data = current;
-                             
-                context.SaveChanges();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine($"- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"");
-                    }
-                }
-            }
-            finally
-            {
-                context.Dispose();
-                AssociatedObject.IsEnabled = true;
-            }
-        }
+            var data = DB.Context.Executors.Where(e => e.Id == current.Id).Single();
+            data.FullName = current.FullName;
+            data.Email = current.Email;
+            data.PhoneNumber = current.PhoneNumber;
+            data.Skype = current.Skype;
+            current.Photo.CopyTo(data.Photo, 0);
+
+            if (current.Tasks != null)
+                data.Tasks = new List<Model.Task>(current.Tasks);
+
+            DB.Context.SaveChanges();
+
+            AssociatedObject.IsEnabled = true;            
+        }*/
 
         protected override void OnDetaching()
         {
-            Events.OnExecutorSaveCahnge -= OnExecutorSaveChangeEventHandler;
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+
+            /*Events.OnExecutorSaveCahnge -= OnExecutorSaveChangeEventHandler;
             Events.OnExecutorCancelChange -= OnExecutorCancelChangeEventHandler;
             Events.OnCreateExecutor -= OnCreateExecutorEventHandler;
-            Events.OnDeleteExecutor -= OnDeleteExecutorEventHandler;
+            Events.OnDeleteExecutor -= OnDeleteExecutorEventHandler;*/
         }
+
+        private void Update()
+        {
+            AssociatedObject.Items.Clear();
+            
+            foreach (var executor in DB.Context.Executors)
+            {
+                TreeViewItem item = new TreeViewItem();
+                item.Header = executor.FullName;
+                item.PreviewMouseLeftButtonDown += SelectExecutor;
+                item.PreviewMouseRightButtonDown += SelectData;
+                
+                if (executor.Tasks != null)
+                    foreach (var task in executor.Tasks)
+                    {
+                        TreeViewItem taskItem = new TreeViewItem();
+                        taskItem.Header = task.Name;
+                        item.Items.Add(taskItem);
+                    }
+
+                item.DataContext = executor;
+                
+                AssociatedObject.Items.Add(item);
+            }
+        }
+
+        private void SelectData(object sender, MouseButtonEventArgs e)
+        {
+            SelectedExecutor.Executor = AssociatedObject.DataContext as Executor;
+        }
+
+        private void SelectExecutor(object sender, MouseButtonEventArgs e)
+        {
+            var item = sender as TreeViewItem;
+            var data = item.DataContext as Model.Executor;
+            Events.SelectExecutor(data);
+        }        
     }
 }

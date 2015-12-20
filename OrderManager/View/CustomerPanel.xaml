@@ -13,14 +13,12 @@
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <Button Content="Ок" Margin="5" Height="20" Width="70" IsEnabled="False">
                 <i:Interaction.Behaviors>
-                    <CustomerBehaviors:SaveChangeBehavior/>
-                    <CustomerBehaviors:ChangeBehavior/>
+                    <CustomerBehaviors:SaveChangeBehavior/>                    
                 </i:Interaction.Behaviors>
             </Button>
             <Button Content="Отмена" Margin="5" Height="20" Width="70" IsEnabled="False">
                 <i:Interaction.Behaviors>
-                    <CustomerBehaviors:CancelChangeBehavior/>
-                    <CustomerBehaviors:ChangeBehavior/>
+                    <CustomerBehaviors:CancelChangeBehavior/>                    
                 </i:Interaction.Behaviors>
             </Button>
         </StackPanel>
