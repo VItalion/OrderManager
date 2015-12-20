@@ -21,6 +21,7 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
         private void CancelChangeEventHandler(object sender, RoutedEventArgs e)
         {
+            SelectedCustomer.Current = new Model.Customer(SelectedCustomer.Customer);
             Events.CustomerCancelChange();
         }
 

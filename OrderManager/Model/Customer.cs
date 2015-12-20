@@ -23,5 +23,30 @@ namespace OrderManager.Model
         public string Street { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
+        
+        public Customer()
+        {
+            Projects = new List<Project>();
+        }
+        public Customer(Customer customer)
+        {
+            if (customer != null)
+            {
+                Id = customer.Id;
+                FullName = customer.FullName;
+                Country = customer.Country;
+                City = customer.City;
+                Street = customer.Street;
+                if (customer.Projects != null)
+                    Projects = new List<Project>(customer.Projects);
+                else
+                    Projects = new List<Project>();
+                if (customer.Photo != null)
+                {
+                    Photo = new byte[customer.Photo.Length];
+                    customer.Photo.CopyTo(Photo, 0);
+                }
+            }
+        }
     }
 }

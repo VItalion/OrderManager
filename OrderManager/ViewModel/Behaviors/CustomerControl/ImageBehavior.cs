@@ -20,41 +20,28 @@ namespace OrderManager.ViewModel.Behaviors.CustomerControl
 
         private void AssociatedObject_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            using (MemoryStream ms = new MemoryStream((byte[])AssociatedObject.DataContext))
-            {
-                System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();
-                bi.StreamSource = ms;
-                bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                bi.EndInit();
+            if (CustomerTab.SelectedCustomer.Current != null)
+                using (MemoryStream ms = new MemoryStream(CustomerTab.SelectedCustomer.Current.Photo))
+                {
+                    System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
+                    bi.BeginInit();
+                    bi.StreamSource = ms;
+                    bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    bi.EndInit();
 
-                AssociatedObject.Source = bi;
-            }
+                    AssociatedObject.Source = bi;
+                }
         }
 
         private void PhotoChangeEventHandler(string obj)
         {
-            byte[] buffer = File.ReadAllBytes(obj);
-
-            MemoryStream ms = new MemoryStream(File.ReadAllBytes(obj));
-            try
+            if ((obj != null) && (obj != ""))
             {
-                System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();                
-                bi.StreamSource = ms;
-                bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                bi.EndInit();
-                                
+                byte[] buffer = File.ReadAllBytes(obj);
+                CustomerTab.SelectedCustomer.Current.Photo = buffer;
                 AssociatedObject.DataContext = buffer;
-                ExecutorTab.SelectedExecutor.Executor.Photo = buffer;
-
                 Events.PersonChange();
-            }
-            catch { }
-            finally
-            {
-                ms.Dispose();
-            }
+            }       
         }
 
         protected override void OnDetaching()

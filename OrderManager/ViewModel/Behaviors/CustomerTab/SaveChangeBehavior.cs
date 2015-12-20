@@ -21,7 +21,9 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
         private void SaveChange(object sender, RoutedEventArgs e)
         {
-            Events.CustomerSaveChange(AssociatedObject.DataContext as Model.Customer);
+            var b = sender as Button;
+            SelectedCustomer.Current = b.DataContext as Model.Customer;
+            Events.CustomerSaveChange(SelectedCustomer.Current);
         }
 
         private void Events_OnCancelChangeCustomer()

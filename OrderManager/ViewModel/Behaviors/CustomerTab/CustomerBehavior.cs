@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using OrderManager.Model;
 
 namespace OrderManager.ViewModel.Behaviors.CustomerTab
 {
@@ -17,11 +16,16 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
         {
             //AssociatedObject.Selected += SelectCustomer;
             AssociatedObject.Loaded += AssociatedObject_Loaded;
-
-            /*Events.OnCreateCustomer += OnCreateCustomerEventHandler;
-            Events.OnDeleteCustomer += OnDeleteCustomerEventHandler;
+            AssociatedObject.PreviewMouseLeftButtonDown += ShowGlobalInformation;
+            Events.OnCreateCustomer += OnCreateCustomerEventHandler;
+            //Events.OnDeleteCustomer += OnDeleteCustomerEventHandler;
             Events.OnSaveChangeCustomer += OnSaveChangeCustomer;
-            Events.OnCancelChangeCustomer += OnCancelChangeEventHandler;*/
+            //Events.OnCancelChangeCustomer += OnCancelChangeEventHandler;
+        }
+
+        private void ShowGlobalInformation(object sender, MouseButtonEventArgs e)
+        {
+            Events.ShowCustomerInformation();
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
@@ -30,62 +34,54 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
             Update();
         }
 
-        /*private void OnCancelChangeEventHandler()
+        private void OnCancelChangeEventHandler()
         {
             AssociatedObject.IsEnabled = true;
         }
 
-        private void OnSaveChangeCustomer(Customer obj)
-        {
-            var data = DB.Context.Customers.Where(e => e.Id == obj.Id).Single();
-            data.FullName = obj.FullName;
-            data.Country = obj.Country;
-            data.City = obj.City;
-            data.Street = obj.Street;
-            data.Photo = obj.Photo;
-            obj.Projects.CopyTo(data.Projects.ToArray(), 0);
-            
-            DB.Context.SaveChanges();
-
+        private void OnSaveChangeCustomer(Model.Customer obj)
+        {            
+            Update();
             AssociatedObject.IsEnabled = true;
         }
 
-        private void OnDeleteCustomerEventHandler(Customer obj)
-        {
-            var customer = DB.Context.Customers.Where(e => e.Id == obj.Id).Single();
+        //private void OnDeleteCustomerEventHandler(Customer obj)
+        //{
+        //    var customer = DB.Context.Customers.Where(e => e.Id == obj.Id).Single();
 
-            DB.Context.Customers.Remove(customer);
-            DB.Context.SaveChanges();
+        //    DB.Context.Customers.Remove(customer);
+        //    DB.Context.SaveChanges();
 
-            AssociatedObject.DataContext = DB.Context.Customers.ToList();
-        }
+        //    AssociatedObject.DataContext = DB.Context.Customers.ToList();
+        //}
 
-        private void OnCreateCustomerEventHandler(Customer obj)
+        private void OnCreateCustomerEventHandler(Model.Customer obj)
         {
             DB.Context.Customers.Add(obj);
             DB.Context.SaveChanges();
 
-            AssociatedObject.DataContext = DB.Context.Customers.ToList();
+            //AssociatedObject.DataContext = DB.Context.Customers.ToList();
+            Update();
             Events.CustomerSaveChange(obj);
         }
 
-        private void SelectCustomer(object sender, RoutedEventArgs e)
-        {
-            var p = AssociatedObject.Parent as TreeView;
-            var current = p.SelectedItem as Model.Customer;
+        //private void SelectCustomer(object sender, RoutedEventArgs e)
+        //{
+        //    var p = AssociatedObject.Parent as TreeView;
+        //    var current = p.SelectedItem as Model.Customer;
 
-            Events.SelectCustomer(current);
-        }*/
+        //    Events.SelectCustomer(current);
+        //}
 
         protected override void OnDetaching()
         {
             //AssociatedObject.Selected -= SelectCustomer;
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
-
-            /*Events.OnCreateCustomer -= OnCreateCustomerEventHandler;
-            Events.OnDeleteCustomer -= OnDeleteCustomerEventHandler;
+            AssociatedObject.PreviewMouseLeftButtonDown -= ShowGlobalInformation;
+            Events.OnCreateCustomer -= OnCreateCustomerEventHandler;
+            //Events.OnDeleteCustomer -= OnDeleteCustomerEventHandler;
             Events.OnSaveChangeCustomer -= OnSaveChangeCustomer;
-            Events.OnCancelChangeCustomer -= OnCancelChangeEventHandler;*/
+            //Events.OnCancelChangeCustomer -= OnCancelChangeEventHandler;
         }
 
         private void Update()
@@ -115,13 +111,16 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
 
         private void SelectData(object sender, MouseButtonEventArgs e)
         {
-            SelectedCustomer.Customer = AssociatedObject.DataContext as Customer;
+            SelectedCustomer.Customer = new Model.Customer(AssociatedObject.DataContext as Model.Customer);
+            SelectedCustomer.Current = AssociatedObject.DataContext as Model.Customer;
         }
 
         private void SelectCustomer(object sender, MouseButtonEventArgs e)
         {
-            SelectedCustomer.Customer = (sender as TreeViewItem).DataContext as Customer;
-            Events.SelectCustomer(SelectedCustomer.Customer);
+            var item = sender as TreeViewItem;
+            var data = item.DataContext as Model.Customer;
+            SelectedCustomer.Current = data;            
+            Events.SelectCustomer(SelectedCustomer.Current);
         }
     }
 }

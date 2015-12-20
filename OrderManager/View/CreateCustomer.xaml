@@ -9,21 +9,19 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="CreateCustomer" Height="500" Width="630">
-    <DockPanel>        
-            <StackPanel MinWidth="280">
-                <local:CustomerControl DataContext="{Binding}"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
-                    <Button Content="Создать" Margin="5">
-                        <i:Interaction.Behaviors>
-                            <Customer:CreateCustomerBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                    <Button Content="Отмена" Margin="5">
-                        <i:Interaction.Behaviors>
-                            <Customer:CancelCustomerBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-        </DockPanel>
+    <StackPanel MinWidth="280">
+        <local:CustomerControl DataContext="{Binding}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <Button Content="Создать" Margin="5">
+                <i:Interaction.Behaviors>
+                    <Customer:CreateCustomerBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Button Content="Отмена" Margin="5">
+                <i:Interaction.Behaviors>
+                    <Customer:CancelCustomerBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </StackPanel>
 </Window>

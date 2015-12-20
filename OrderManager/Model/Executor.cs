@@ -24,5 +24,27 @@ namespace OrderManager.Model
         public string PhoneNumber { get; set; }        
 
         public virtual ICollection<Task> Tasks { get; set; }
+
+        public Executor(Executor executor)
+        {
+            Id = executor.Id;
+            FullName = executor.FullName;
+            Email = executor.Email;
+            PhoneNumber = executor.PhoneNumber;
+            Skype = executor.Skype;
+            if (executor.Tasks != null)
+                Tasks = new List<Task>(executor.Tasks);
+            else
+                Tasks = new List<Task>();
+            if (executor.Photo != null)
+            {
+                Photo = new byte[executor.Photo.Length];
+                executor.Photo.CopyTo(Photo, 0);
+            }
+        }
+        public Executor()
+        {
+            this.Tasks = new List<Task>();
+        }
     }
 }

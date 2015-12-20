@@ -19,17 +19,9 @@ namespace OrderManager.ViewModel.Behaviors.CreateExecutor
         private void Create(object sender, RoutedEventArgs e)
         {
             var b = sender as Button;
-            var executor = b.DataContext as Model.Executor;
-
-            /* var project = (ProjectControl.DataSource.Buffer != null) ? ProjectControl.DataSource.Buffer : ProjectControl.DataSource.SelectedProject;
-
-             foreach(var task in project.Tasks)
-             {
-                 executor.Id = task.Executor.Id;
-                 task.Executor = executor;*/
-            //ExecutorTab.SelectedExecutor.Executor = executor;
-                Events.CreateExecutor(ExecutorTab.SelectedExecutor.Executor);
-           // }            
+            ExecutorTab.SelectedExecutor.Current = b.DataContext as Model.Executor;
+            Events.CreateExecutor(ExecutorTab.SelectedExecutor.Current);
+                       
             Application.Current.Windows.OfType<View.CreateExecutor>().Single().Close();
         }
 

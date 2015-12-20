@@ -8,7 +8,7 @@ namespace OrderManager.Model
     public class Project
     {
         [Key]
-        [ForeignKey("Tasks")]
+        //[ForeignKey("Tasks")]
         public int Id { get; set; }
 
         public string Name { get; set; }

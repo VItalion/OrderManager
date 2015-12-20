@@ -18,13 +18,13 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
         private void AssociatedObject_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (AssociatedObject.DataContext == null)
+            /*if (AssociatedObject.DataContext == null)
                 AssociatedObject.DataContext = new object();
 
             if (AssociatedObject.DataContext.GetType() == typeof(Model.Executor))
                 ExecutorTab.SelectedExecutor.Executor = AssociatedObject.DataContext as Model.Executor;
             else if (AssociatedObject.DataContext.GetType() == typeof(Model.Customer))
-                CustomerTab.SelectedCustomer.Customer = AssociatedObject.DataContext as Model.Customer;
+                CustomerTab.SelectedCustomer.Customer = AssociatedObject.DataContext as Model.Customer;*/
         }
 
         private void AssociatedObject_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)

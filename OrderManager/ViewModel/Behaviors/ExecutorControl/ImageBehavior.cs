@@ -20,7 +20,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
         private void AssociatedObject_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
-            using(MemoryStream ms = new MemoryStream((byte[])AssociatedObject.DataContext))
+            using(MemoryStream ms = new MemoryStream(ExecutorTab.SelectedExecutor.Current.Photo))
             {
                 System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
                 bi.BeginInit();                
@@ -34,26 +34,15 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
         private void PhotoChangeEventHandler(string obj)
         {
-            byte[] buffer = File.ReadAllBytes(obj);
-
-            MemoryStream ms = new MemoryStream(File.ReadAllBytes(obj));
-            try
+            if((obj != null) && (obj != ""))
             {
-                System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();                
-                bi.StreamSource = ms;
-                bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                bi.EndInit();
-                                
-                AssociatedObject.DataContext = buffer;                         
-
+                byte[] buffer = File.ReadAllBytes(obj);
+                AssociatedObject.DataContext = buffer;
+                //if (ExecutorTab.SelectedExecutor.Current.Photo == null)
+                ExecutorTab.SelectedExecutor.Current.Photo = new byte[buffer.Length];
+                buffer.CopyTo(ExecutorTab.SelectedExecutor.Current.Photo, 0);
                 Events.PersonChange();
-            }
-            catch { }
-            finally
-            {
-                ms.Dispose();
-            }
+            }                        
         }
 
         protected override void OnDetaching()

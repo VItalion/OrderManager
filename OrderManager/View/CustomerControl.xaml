@@ -38,7 +38,7 @@
             </DockPanel>
         </DockPanel>
         <StackPanel DockPanel.Dock="Bottom">
-            <ListBox ItemsSource="{Binding Projects}" Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Новая задача">

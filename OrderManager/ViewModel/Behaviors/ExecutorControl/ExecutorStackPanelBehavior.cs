@@ -48,11 +48,11 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             AssociatedObject.Children.Clear();
 
             var control = new View.ExecutorPanel();
-            control.DataContext = ExecutorTab.SelectedExecutor.Executor;
-
-            var data = DB.Context.Executors.Where((e) => e.Id == ExecutorTab.SelectedExecutor.Executor.Id).Single();
-            control.DataContext = data;
+            var data = new Model.Executor(ExecutorTab.SelectedExecutor.Executor);
+            ExecutorTab.SelectedExecutor.Current = new Model.Executor(ExecutorTab.SelectedExecutor.Executor);
             
+            control.DataContext = data;
+                        
             AssociatedObject.Children.Add(control);
         }
 
@@ -62,28 +62,20 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
 
             var control = new View.ExecutorPanel();
             AssociatedObject.Children.Add(control);
-
+            Events.PersonChange();
+            control.IsEnabled = false;
             await System.Threading.Tasks.Task.Run(() =>
             {
                 System.Threading.Thread.Sleep(3000);
                 Dispatcher.Invoke(()=> 
                 {
-                    var data = new Model.Executor();
-                    data.Id = obj.Id;
-                    data.FullName = obj.FullName;
-                    data.Email = obj.Email;
-                    data.PhoneNumber = obj.PhoneNumber;
-                    data.Skype = obj.Skype;
-                    data.Tasks = new List<Model.Task>(obj.Tasks);
-                    if (obj.Photo != null)
-                    {
-                        data.Photo = new byte[obj.Photo.Length];
-                        obj.Photo.CopyTo(data.Photo, 0);
-                    }
-
+                    var data = new Model.Executor(obj);
+                    
                     control.DataContext = data;
                 });                      
-            });            
+            });
+            control.IsEnabled = true;
+            Events.ExecutorCancelChange();         
         }
 
         protected override void OnDetaching()

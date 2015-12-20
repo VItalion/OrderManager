@@ -40,6 +40,7 @@ namespace OrderManager.ViewModel
         public static event Action<Model.Customer> OnDeleteCustomer;
         public static event Action<Model.Customer> OnSaveChangeCustomer;
         public static event Action OnCancelChangeCustomer;
+        public static event Action OnShowCustomerInformation;
         #endregion
 
         #region Projects
@@ -128,7 +129,7 @@ namespace OrderManager.ViewModel
             if (OnSelectExecutor != null)
                 OnSelectExecutor(executor);
 
-            Behaviors.ExecutorTab.SelectedExecutor.Executor = executor;
+            Behaviors.ExecutorTab.SelectedExecutor.Executor = new Model.Executor(executor);
         }
         public static void ShowExecutorInformation()
         {
@@ -149,7 +150,7 @@ namespace OrderManager.ViewModel
             if (OnSelectCustomer != null)
                 OnSelectCustomer(customer);
 
-            Behaviors.CustomerTab.SelectedCustomer.Customer = customer;
+            Behaviors.CustomerTab.SelectedCustomer.Customer = new Model.Customer(customer);
         }
         public static void CreateCustomer(Model.Customer customer)
         {
@@ -170,6 +171,11 @@ namespace OrderManager.ViewModel
         {
             if (OnCancelChangeCustomer != null)
                 OnCancelChangeCustomer();
+        }
+        public static void ShowCustomerInformation()
+        {
+            if (OnShowCustomerInformation != null)
+                OnShowCustomerInformation();
         }
         #endregion
     }
