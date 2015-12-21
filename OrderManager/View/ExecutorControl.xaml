@@ -35,23 +35,12 @@
             </DockPanel>
         </DockPanel>
         <StackPanel DockPanel.Dock="Bottom">
-            <ListBox Height="100" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Новая задача">
-                            <i:Interaction.Behaviors>
-
-                            </i:Interaction.Behaviors>
-                        </MenuItem>
-                        <MenuItem Header="Удалить задачу">
-                            <i:Interaction.Behaviors>
-                            </i:Interaction.Behaviors>
-                        </MenuItem>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-                <DataTemplate>
-                    <ListBoxItem Content="{Binding Tasks.Name}"/>
-                </DataTemplate>
+            <ListBox ItemsSource="{Binding Tasks}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="150">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ListBoxItem Content="{Binding Name}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>                
             </ListBox>
         </StackPanel>
     </DockPanel>

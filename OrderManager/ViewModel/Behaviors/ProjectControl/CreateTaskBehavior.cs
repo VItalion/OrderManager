@@ -23,8 +23,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
                 if (obj.Project.Id == DataSource.SelectedProject.Id)
                 {
                     ListBoxItem block = new ListBoxItem();
-                    block.Content = obj.Name;
-                    //AssociatedObject.ItemsSource = DB.Context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();  
+                    block.Content = obj.Name;                    
                     AssociatedObject.ItemsSource = DataSource.SelectedProject.Tasks.ToList();
                     Events.ProjectChange();
                 }
@@ -34,8 +33,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectControl
                 if (obj.Project.Id == (AssociatedObject.DataContext as Project).Id)
                 {
                     ListBoxItem block = new ListBoxItem();
-                    block.Content = obj.Name;
-                    //AssociatedObject.ItemsSource = DB.Context.Projects.Where(p => p.Id == obj.Project.Id).Single().Tasks.ToList();  
+                    block.Content = obj.Name;                    
                     AssociatedObject.ItemsSource = DataSource.Buffer.Tasks.ToList();
                     Events.ProjectChange();
                 }

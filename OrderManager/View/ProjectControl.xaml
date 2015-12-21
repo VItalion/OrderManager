@@ -8,6 +8,7 @@
              xmlns:Behaviors="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectTab"
              xmlns:Customer="clr-namespace:OrderManager.ViewModel.Behaviors.CreateCustomer"
              xmlns:Control="clr-namespace:OrderManager.ViewModel.Behaviors.ProjectControl"
+             xmlns:Task="clr-namespace:OrderManager.ViewModel.Behaviors.TaskControl"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
@@ -26,10 +27,14 @@
             <Label Content="Ответственный исполнитель:"/>
             <TextBox Margin="5" Text="{Binding Executor}"/>
             <Label Content="Список задач:"/>
-            <ListBox ItemsSource="{Binding Tasks}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox ItemsSource="{Binding Tasks}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="150">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <ListBoxItem Content="{Binding Name}"/>
+                        <ListBoxItem Content="{Binding Name}">
+                            <i:Interaction.Behaviors>
+                                <Task:TaskBehavior/>
+                            </i:Interaction.Behaviors>
+                        </ListBoxItem>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <i:Interaction.Behaviors>
@@ -43,16 +48,18 @@
                     </i:Interaction.Behaviors>
                 </Button>
                 <Button Content="Удалить" Margin="5">
-
+                    <i:Interaction.Behaviors>
+                        <Task:DeleteTaskBehavior/>
+                    </i:Interaction.Behaviors>
                 </Button>
             </StackPanel>
             <Label Content="Список заказчиков:"/>
-            <ListBox ItemsSource="{Binding Customers}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <ListBoxItem Content="{Binding FullName}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <ListBox ItemsSource="{Binding Customers}" MaxHeight="75" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="150">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ListBoxItem Content="{Binding FullName}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>            
             </ListBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Добавить" Margin="5">

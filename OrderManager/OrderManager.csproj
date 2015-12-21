@@ -129,6 +129,8 @@
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CancelCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\CreateCustomer\CreateCustomerBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\DeleteProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\CancelChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\DeleteTaskBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\DockPanelBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\NewProjectBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\ProjcetControlBehavior.cs" />
@@ -140,11 +142,14 @@
     <Compile Include="ViewModel\Behaviors\ProjectControl\StatusChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\SaveChangeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\ProjectTab\TreeViewProjectBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\CurrentTask.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\SaveChangeBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\TaskCahngeBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TypeTab\CancelBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TypeTab\PersonTabBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TypeTab\ProjectTabBehavior.cs" />
     <Compile Include="ViewModel\Behaviors\TypeTab\TabBehavior.cs" />
-    <Compile Include="ViewModel\Behaviors\TaskControl\ExecutorNameBehavior.cs" />
+    <Compile Include="ViewModel\Behaviors\TaskControl\TaskBehavior.cs" />
     <Compile Include="ViewModel\DB.cs" />
     <Compile Include="ViewModel\Events.cs" />
     <Compile Include="View\CreateCustomer.xaml.cs">
@@ -179,6 +184,12 @@
     </Compile>
     <Compile Include="View\SelectTabType.xaml.cs">
       <DependentUpon>SelectTabType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskControl.xaml.cs">
+      <DependentUpon>TaskControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskPanel.xaml.cs">
+      <DependentUpon>TaskPanel.xaml</DependentUpon>
     </Compile>
     <Page Include="View\CreateCustomer.xaml">
       <SubType>Designer</SubType>
@@ -253,6 +264,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\SelectTabType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaskPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

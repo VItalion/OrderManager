@@ -46,7 +46,8 @@ namespace OrderManager.ViewModel.Behaviors.CustomerControl
             if ((obj != null) && (obj != ""))
             {
                 byte[] buffer = File.ReadAllBytes(obj);
-                CustomerTab.SelectedCustomer.Current.Photo = buffer;
+                if (CustomerTab.SelectedCustomer.Current != null)
+                    CustomerTab.SelectedCustomer.Current.Photo = buffer;
                 AssociatedObject.DataContext = buffer;
                 Events.PersonChange();
             }       

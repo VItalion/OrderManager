@@ -22,7 +22,25 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             Events.OnProjectChange += ChangeEventHandler;
             Events.OnCreateTask += OnCreateTaskEventHandler;
             Events.OnProjectSaveChange += SaveChangeEventHandler;
-            Events.OnProjectCancelChange += CancelCahngeEventHandler;            
+            Events.OnProjectCancelChange += CancelCahngeEventHandler;
+            Events.OnTaskCahnge += Events_OnTaskCahnge;
+            Events.OnTaskSaveChange += Events_OnTaskSaveChange;
+            Events.OnTaskCancelChange += Events_OnTaskCancelChange;        
+        }
+
+        private void Events_OnTaskCancelChange()
+        {
+            AssociatedObject.IsEnabled = true;
+        }
+
+        private void Events_OnTaskSaveChange(Model.Task obj)
+        {
+            AssociatedObject.IsEnabled = true;
+        }
+
+        private void Events_OnTaskCahnge()
+        {
+            AssociatedObject.IsEnabled = false;
         }
 
         private void OnCreateTaskEventHandler(Model.Task obj)
@@ -54,8 +72,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         
         private void SaveChangeEventHandler()
         {
-            AssociatedObject.IsEnabled = true;
-            
+            AssociatedObject.IsEnabled = true;            
             Update();
         }
 
@@ -78,7 +95,10 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             Events.OnProjectChange -= ChangeEventHandler;
             Events.OnCreateTask -= OnCreateTaskEventHandler;
             Events.OnProjectSaveChange -= SaveChangeEventHandler;
-            Events.OnProjectCancelChange -= CancelCahngeEventHandler;            
+            Events.OnProjectCancelChange -= CancelCahngeEventHandler;
+            Events.OnTaskCahnge -= Events_OnTaskCahnge;
+            Events.OnTaskSaveChange -= Events_OnTaskSaveChange;
+            Events.OnTaskCancelChange -= Events_OnTaskCancelChange;
         }
 
         //Обновление содержимого дерева проектов
@@ -103,6 +123,8 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
                     {
                         TreeViewItem taskItem = new TreeViewItem();
                         taskItem.Header = task.Name;
+                        taskItem.DataContext = task;
+                        taskItem.PreviewMouseLeftButtonDown += SelectTask;
                         item.Items.Add(taskItem);
                     }
                 item.DataContext = project;
@@ -110,6 +132,13 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
                 item.PreviewMouseRightButtonDown += SelectData;
                 AssociatedObject.Items.Add(item);
             }
+        }
+
+        private void SelectTask(object sender, MouseButtonEventArgs e)
+        {
+            var item = sender as TreeViewItem;
+            var data = item.DataContext as Model.Task;
+            Events.SelectTask(data);
         }
 
         private void SelectData(object sender, MouseButtonEventArgs e)
@@ -136,7 +165,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         private void ExecutorSelect(object sender, MouseButtonEventArgs e)
         {
             var tb = sender as TextBlock;
-            var executor = DB.Context.Executors.Where(ex => ex.FullName == tb.Text).SingleOrDefault();
+            var executor = DB.Context.Executors.Where(ex => ex.FullName == tb.Text).FirstOrDefault();
             if (executor == null)
             {
                 MessageBox.Show("Такого исполнителя не существует!");

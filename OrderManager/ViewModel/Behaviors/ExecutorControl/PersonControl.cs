@@ -18,6 +18,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
         private void AssociatedObject_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             Events.PersonChange();
+            CustomerTab.SelectedCustomer.Current = AssociatedObject.DataContext as Model.Customer;
         }
 
         protected override void OnDetaching()

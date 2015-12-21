@@ -6,48 +6,25 @@
         xmlns:local="clr-namespace:OrderManager.View"
         xmlns:Model="clr-namespace:OrderManager.Model"
         xmlns:Behavior="clr-namespace:OrderManager.ViewModel.Behaviors.CreateTask"
-        xmlns:tmp="clr-namespace:OrderManager.ViewModel.Behaviors.TaskControl"
+        xmlns:Task="clr-namespace:OrderManager.ViewModel.Behaviors.TaskControl"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="OrderManager.View.CreateTask"
         x:Name="window"
         mc:Ignorable="d"
         Title="CreateTask" Height="500" Width="320">
-    <DockPanel>
-
-       
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel DockPanel.Dock="Left" MinWidth="300">
-                <Label Content="Название задачи:"/>
-                <TextBox Margin="5" Text="{Binding Name}"/>
-                <Label Content="Ответственный исполнитель:"/>
-                <TextBox Margin="5" Text="{Binding Executor.FullName}">
-                    <i:Interaction.Behaviors>
-                        <tmp:ExecutorNameBehavior/>
-                    </i:Interaction.Behaviors>
-                </TextBox>
-                <Label Content="Сроки выполнения:"/>
-                <Calendar Margin="5" DisplayDate="{Binding DateOfCompletion}"/>
-                <Label Content="Статус выполнения:"/>
-                <ComboBox Margin="5" SelectedItem="{Binding Status}">
-                    <System:String>Планирование</System:String>
-                    <System:String>Разработка</System:String>
-                    <System:String>Тестирование</System:String>
-                    <System:String>Фикс багов</System:String>
-                    <System:String>Завершен</System:String>
-                </ComboBox>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
-                    <Button Content="Создать" Margin="5">
-                        <i:Interaction.Behaviors>
-                            <Behavior:CreateTaskBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                    <Button Content="Отмена" Margin="5">
-                        <i:Interaction.Behaviors>
-                            <Behavior:CancelTaskBehavior/>
-                        </i:Interaction.Behaviors>
-                    </Button>
-                </StackPanel>
-            </StackPanel>
-        </ScrollViewer>
-    </DockPanel>
+    <StackPanel>
+        <local:TaskControl/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <Button Content="Создать" Margin="5">
+                <i:Interaction.Behaviors>
+                    <Behavior:CreateTaskBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Button Content="Отмена" Margin="5">
+                <i:Interaction.Behaviors>
+                    <Behavior:CancelTaskBehavior/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+    </StackPanel>
 </Window>

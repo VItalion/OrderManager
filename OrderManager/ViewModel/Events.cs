@@ -16,9 +16,19 @@ namespace OrderManager.ViewModel
         public static event Action OnProjectCancelChange;
         public static event Action OnProjectSaveChange;
         public static event Action OnShowProjectInformation;
-        public static event Action<Model.Task> OnCreateTask;
-
+        
         public static event Action OnCreateProjectTab;
+        #endregion
+
+        #region TaskEvents
+        public static event Action<Model.Task> OnCreateTask;
+        public static event Action OnDeleteTask;
+        public static event Action<Model.Task> OnSelectTask;
+        public static event Action<Model.Project> OnUpdateProject;
+        public static event Action<Model.Task> OnTaskSaveChange;
+        public static event Action OnTaskCancelChange;
+        public static event Action OnTaskCahnge;
+        public static event Action<Model.Task> OnUpdateTask;
         #endregion
 
         #region ExecutorEvents
@@ -80,16 +90,56 @@ namespace OrderManager.ViewModel
             if (OnShowProjectInformation != null)
                 OnShowProjectInformation();
         }
+        public static void CreteProjectTab()
+        {
+            if (OnCreateProjectTab != null)
+                OnCreateProjectTab();
+        }
+        #endregion
+
+        #region Tasks
         public static void CreateTask(Model.Task task)
         {
             if (OnCreateTask != null)
                 OnCreateTask(task);
         }
-
-        public static void CreteProjectTab()
+        public static void DeleteTask()
         {
-            if (OnCreateProjectTab != null)
-                OnCreateProjectTab();
+            if (OnDeleteTask != null)
+                OnDeleteTask();
+        }
+        public static void SelectTask(Model.Task task)
+        {
+            if (OnSelectTask != null)
+                OnSelectTask(task);
+            Behaviors.TaskControl.CurrentTask.Task = task;
+            Behaviors.TaskControl.CurrentTask.Buffer = new Model.Task(task);
+            Behaviors.TaskControl.CurrentTask.Buffer.Executor = task.Executor;
+        }
+        public static void TaskSaveChange(Model.Task task)
+        {
+            if (OnTaskSaveChange != null)
+                OnTaskSaveChange(task);
+        }
+        public static void UpdateProject(Model.Project project)
+        {
+            if (OnUpdateProject != null)
+                OnUpdateProject(project);
+        }
+        public static void TaskCancelCahnge()
+        {
+            if (OnTaskCancelChange != null)
+                OnTaskCancelChange();
+        }
+        public static void TaskChange()
+        {
+            if (OnTaskCahnge != null)
+                OnTaskCahnge();
+        }
+        public static void UpdateTask(Model.Task task)
+        {
+            if (OnUpdateTask != null)
+                OnUpdateTask(task);
         }
         #endregion
 

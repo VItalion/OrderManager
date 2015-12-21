@@ -19,7 +19,9 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         private void AddCustomer(object sender, RoutedEventArgs e)
         {
             View.CreateCustomer cc = new View.CreateCustomer();
-            cc.DataContext = new Model.Customer();
+            var customer = new Model.Customer() { Projects = new List<Model.Project>() };
+            customer.Projects.Add(ProjectControl.DataSource.SelectedProject);
+            cc.DataContext = customer;
             cc.ShowDialog();
         }
 

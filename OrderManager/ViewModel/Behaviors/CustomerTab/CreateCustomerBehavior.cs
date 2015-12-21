@@ -19,7 +19,9 @@ namespace OrderManager.ViewModel.Behaviors.CustomerTab
         private void NewCustomer(object sender, RoutedEventArgs e)
         {
             var window = new View.CreateCustomer();
-            window.DataContext = new Model.Customer();
+            SelectedCustomer.Customer = new Model.Customer();
+            SelectedCustomer.Current = new Model.Customer();
+            window.DataContext = SelectedCustomer.Current;
             window.Show();
         }
 

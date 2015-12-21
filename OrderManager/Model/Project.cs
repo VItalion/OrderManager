@@ -23,5 +23,22 @@ namespace OrderManager.Model
         public virtual ICollection<Customer> Customers { get; set; }
 
         public Project() { DateOfCompletion = DateTime.Now; }
+        public Project(Project project)
+        {
+            Id = project.Id;
+            Name = project.Name;
+            PlannedBudget = project.PlannedBudget;
+            RealBudget = project.RealBudget;
+            Status = project.Status;
+            if (project.Tasks != null)
+                Tasks = new List<Task>(project.Tasks);
+            else
+                Tasks = new List<Task>();
+
+            if (project.Executor != null)
+                Customers = new List<Customer>(project.Customers);
+            else
+                Customers = new List<Customer>();
+        }
     }
 }

@@ -13,9 +13,44 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         protected override void OnAttached()
         {
             Events.OnSelectProject += Events_OnSelectProject;
+            Events.OnSelectTask += Events_OnSelectTask;
             Events.OnProjectCancelChange += OnCancelChangeEventHandler;
             Events.OnSelectExecutor += SelectExecutorEventHandler;
             Events.OnShowProjectInformation += OnShowInformationEventHandler;
+            Events.OnUpdateProject += UpdateProject;
+            Events.OnUpdateTask += UpdateTask;
+        }
+
+        private void UpdateTask(Model.Task obj)
+        {
+            AssociatedObject.Children.Clear();
+            AssociatedObject.DataContext = null;
+            View.TaskPanel control = new View.TaskPanel();
+            control.DataContext = obj;
+            AssociatedObject.Children.Add(control);  
+        }
+
+        private async void Events_OnSelectTask(Model.Task obj)
+        {
+            AssociatedObject.Children.Clear();
+            AssociatedObject.DataContext = null;
+            View.TaskPanel control = new View.TaskPanel();
+
+            AssociatedObject.Children.Add(control);
+            await Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(3000);
+                Dispatcher.Invoke(() => { control.DataContext = obj; });
+            });
+        }
+
+        private void UpdateProject(Model.Project obj)
+        {
+            AssociatedObject.Children.Clear();
+            AssociatedObject.DataContext = null;
+            View.ProjectPanel control = new View.ProjectPanel();
+            control.DataContext = obj;
+            AssociatedObject.Children.Add(control);            
         }
 
         //Вывод общих сведений
@@ -49,7 +84,7 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
         {
             AssociatedObject.Children.Clear();
             AssociatedObject.DataContext = null;
-            View.ExecutorControl control = new View.ExecutorControl();
+            View.ExecutorPanel control = new View.ExecutorPanel();
 
             AssociatedObject.Children.Add(control);
             await Task.Run(() =>
@@ -88,6 +123,8 @@ namespace OrderManager.ViewModel.Behaviors.ProjectTab
             Events.OnProjectCancelChange -= OnCancelChangeEventHandler;
             Events.OnSelectExecutor -= SelectExecutorEventHandler;
             Events.OnShowProjectInformation -= OnShowInformationEventHandler;
+            Events.OnUpdateProject -= UpdateProject;
+            Events.OnUpdateTask -= UpdateTask;
         }
     }
 

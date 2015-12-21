@@ -34,8 +34,7 @@ namespace OrderManager.ViewModel.Behaviors.ExecutorControl
             customer.Country = obj.Country;
             if (obj.Photo != null)
             {
-                customer.Photo = new byte[obj.Photo.Length];
-                obj.Photo.CopyTo(customer.Photo, 0);
+                customer.Photo = obj.Photo;
             }                
             
             customer.Street = obj.Street;
